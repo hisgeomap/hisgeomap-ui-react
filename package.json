@@ -16,10 +16,12 @@
         "build": "node scripts/build.js",
         "build:dist": "shx rm -r dist;node scripts/build.js; shx mv build dist",
         "build:demo": "shx rm -r demo;DEMO=true node scripts/build.js; shx mv build demo",
-        "build:es": "shx rm -r es;tsc -p tsconfig.es.json --outDir es",
-        "build:lib": "shx rm -r lib;tsc -p tsconfig.lib.json --outDir lib",
+        "build:es": "shx rm -r es; tsc -p tsconfig.es.json --outDir es; yarn run copyfiles:es",
+        "build:lib": "shx rm -r lib; tsc -p tsconfig.lib.json --outDir lib; yarn run copyfiles:lib",
         "deploy": "gh-pages -d demo",
-        "test": "node scripts/test.js"
+        "test": "node scripts/test.js",
+        "copyfiles:lib": "copyfiles -u 1 \"src/**/*.+(css|jpg|jpeg|png|woff|woff2|eot|ttf|svg)\" lib",
+        "copyfiles:es": "copyfiles -u 1 \"src/**/*.+(css|jpg|jpeg|png|woff|woff2|eot|ttf|svg)\" es"
     },
     "eslintConfig": {
         "extends": "react-app"
@@ -90,16 +92,15 @@
         ]
     },
     "devDependencies": {
-        "react-router-dom": "^5.1.1",
-        "@types/classnames": "^2.2.9",
-        "@types/react-router": "^5.1.1",
-        "@types/react-router-dom": "^5.1.0",
         "@babel/core": "7.6.0",
         "@svgr/webpack": "4.3.2",
+        "@types/classnames": "^2.2.9",
         "@types/jest": "24.0.18",
         "@types/node": "12.7.8",
         "@types/react": "16.9.3",
         "@types/react-dom": "16.9.1",
+        "@types/react-router": "^5.1.1",
+        "@types/react-router-dom": "^5.1.0",
         "@typescript-eslint/eslint-plugin": "^2.2.0",
         "@typescript-eslint/parser": "^2.2.0",
         "babel-eslint": "10.0.3",
@@ -109,6 +110,7 @@
         "babel-preset-react-app": "^9.0.2",
         "camelcase": "^5.2.0",
         "case-sensitive-paths-webpack-plugin": "2.2.0",
+        "copyfiles": "^2.1.1",
         "create-react-component-folder": "^0.1.30",
         "css-loader": "2.1.1",
         "dotenv": "6.2.0",
@@ -142,6 +144,7 @@
         "react-app-polyfill": "^1.0.3",
         "react-dev-utils": "^9.0.4",
         "react-dom": "^16.10.0",
+        "react-router-dom": "^5.1.1",
         "resolve": "1.12.0",
         "resolve-url-loader": "3.1.0",
         "sass-loader": "7.2.0",
