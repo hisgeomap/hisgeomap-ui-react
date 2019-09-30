@@ -76,7 +76,7 @@ class Search extends React.Component<SearchProps, SearchState> {
     };
 
     onClickHandle = (value: string) => {
-        return (e: any) => {
+        return () => {
             this.onSelect(value);
         };
     };

@@ -93,8 +93,8 @@ class DragCore {
         this.onDrag(event);
     };
 
-    onTouchStop = (event: any) => {
-        this.onDragStop(event);
+    onTouchStop = () => {
+        this.onDragStop();
     };
 
     onDragStart = (event: any) => {
@@ -139,7 +139,7 @@ class DragCore {
         }
     };
 
-    onDragStop = (event: any) => {
+    onDragStop = () => {
         const component = this.component.current;
         this.dragging = false;
         if (!this.direction && component) {
@@ -157,7 +157,7 @@ class DragCore {
 
     trigger = () => {
         this.direction = !this.direction;
-        this.onDragStop(null);
+        this.onDragStop();
     };
 
     animmate = () => {};

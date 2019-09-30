@@ -2,16 +2,13 @@
     "name": "hisgeomap-ui-react",
     "version": "0.1.0",
     "private": true,
-    "main": "dist/src/hisgeomap-ui-react.js",
+    "main": "lib/index.js",
+    "module": "es/index.js",
     "homepage": "https://hisgeomap.github.io/hisgeomap-ui-react/",
     "dependencies": {
-        "@types/classnames": "^2.2.9",
-        "@types/react-router": "^5.1.1",
-        "@types/react-router-dom": "^5.1.0",
         "antd": "^3.23.4",
         "classnames": "^2.2.6",
-        "react": "^16.10.0",
-        "react-router-dom": "^5.1.1"
+        "react": "^16.10.0"
     },
     "scripts": {
         "start": "node scripts/start.js",
@@ -19,6 +16,8 @@
         "build": "node scripts/build.js",
         "build:dist": "shx rm -r dist;node scripts/build.js; shx mv build dist",
         "build:demo": "shx rm -r demo;DEMO=true node scripts/build.js; shx mv build demo",
+        "build:es": "shx rm -r es;tsc -p tsconfig.es.json --outDir es",
+        "build:lib": "shx rm -r lib;tsc -p tsconfig.lib.json --outDir lib",
         "deploy": "gh-pages -d demo",
         "test": "node scripts/test.js"
     },
@@ -91,6 +90,10 @@
         ]
     },
     "devDependencies": {
+        "react-router-dom": "^5.1.1",
+        "@types/classnames": "^2.2.9",
+        "@types/react-router": "^5.1.1",
+        "@types/react-router-dom": "^5.1.0",
         "@babel/core": "7.6.0",
         "@svgr/webpack": "4.3.2",
         "@types/jest": "24.0.18",
