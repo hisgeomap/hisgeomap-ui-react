@@ -2,6 +2,7 @@
     "name": "hisgeomap-ui",
     "version": "0.1.0",
     "private": true,
+    "homepage": "https://hisgeomap.github.io/hisgeomap-ui-react/",
     "dependencies": {
         "@types/classnames": "^2.2.9",
         "@types/react-router": "^5.1.1",
@@ -14,8 +15,10 @@
     "scripts": {
         "start": "node scripts/start.js",
         "start:demo": "DEMO=true node scripts/start.js",
-        "build": "node scripts/build.js; shx mv build dist",
-        "build:demo": "DEMO=true node scripts/build.js; shx mv build docs",
+        "build": "node scripts/build.js",
+        "build:dist": "shx rm -r dist;node scripts/build.js; shx mv build dist",
+        "build:demo": "shx rm -r docs;DEMO=true node scripts/build.js; shx mv build docs",
+        "deploy": "gh-pages -d docs",
         "test": "node scripts/test.js"
     },
     "eslintConfig": {
@@ -116,6 +119,7 @@
         "eslint-plugin-react-hooks": "^1.6.1",
         "file-loader": "3.0.1",
         "fs-extra": "7.0.1",
+        "gh-pages": "^2.1.1",
         "html-webpack-plugin": "4.0.0-beta.5",
         "identity-obj-proxy": "3.0.0",
         "is-wsl": "^1.1.0",
