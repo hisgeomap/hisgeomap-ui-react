@@ -1,7 +1,8 @@
 {
-    "name": "hisgeomap-ui",
+    "name": "hisgeomap-ui-react",
     "version": "0.1.0",
     "private": true,
+    "main": "dist/src/hisgeomap-ui-react.js",
     "homepage": "https://hisgeomap.github.io/hisgeomap-ui-react/",
     "dependencies": {
         "@types/classnames": "^2.2.9",
@@ -17,8 +18,8 @@
         "start:demo": "DEMO=true node scripts/start.js",
         "build": "node scripts/build.js",
         "build:dist": "shx rm -r dist;node scripts/build.js; shx mv build dist",
-        "build:demo": "shx rm -r docs;DEMO=true node scripts/build.js; shx mv build docs",
-        "deploy": "gh-pages -d docs",
+        "build:demo": "shx rm -r demo;DEMO=true node scripts/build.js; shx mv build demo",
+        "deploy": "gh-pages -d demo",
         "test": "node scripts/test.js"
     },
     "eslintConfig": {

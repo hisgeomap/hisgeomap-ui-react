@@ -172,7 +172,7 @@ module.exports = function(webpackEnv, isDemo) {
       // There will be one main bundle, and one file per asynchronous chunk.
       // In development, it does not produce real files.
       filename: isEnvProduction
-        ? 'static/js/[name].[contenthash:8].js'
+        ? 'static/js/'+ appPackageJson.name + '.js'
         : isEnvDevelopment && 'static/js/bundle.js',
       // TODO: remove this when upgrading to webpack 5
       futureEmitAssets: true,
@@ -194,6 +194,8 @@ module.exports = function(webpackEnv, isDemo) {
       // Prevents conflicts when multiple Webpack runtimes (from different apps)
       // are used on the same page.
       jsonpFunction: `webpackJsonp${appPackageJson.name}`,
+      library: isDemo ? undefined : "hisgeomap-ui-react",
+      libraryTarget: isDemo ? undefined : "umd"
     },
     optimization: {
       minimize: isEnvProduction,

@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/hisgeomap-ui-react/precache-manifest.dc55e30cdd3f26be1a791ec999f33a16.js"
+  "/hisgeomap-ui-react/precache-manifest.72f23d6a4339014dbf0587076d366429.js"
 );
 
 self.addEventListener('message', (event) => {
