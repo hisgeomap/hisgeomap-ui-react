@@ -1,0 +1,27 @@
+.SearchLine input {
+    border: none;
+    border-bottom: 1px solid #d9d9d9;
+    border-radius: 0 !important;
+}
+
+.SearchLine input:focus {
+    box-shadow: none !important;
+}
+
+.SearchLine .ant-select-selection {
+    background: transparent;
+}
+
+.SearchHistory-tag {
+    margin-top: 7px !important;
+    margin-right: 5px !important;
+}
+
+.SearchHistory-tag:hover {
+    cursor: pointer;
+}
+
+.Search {
+    width: fit-content;
+    height: fit-content;
+}

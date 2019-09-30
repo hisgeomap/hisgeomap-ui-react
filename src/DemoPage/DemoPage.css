@@ -1,0 +1,35 @@
+.DemoPage-subsection {
+    padding: 15px 10px;
+}
+
+.DemoPage-subsection-content {
+    border: 1px solid #dddddd;
+    padding: 20px;
+}
+
+.DemoPage-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+.DemoPage-subsection-space {
+    width: 300px;
+    min-height: 200px;
+    position: relative;
+    max-width: 80vw;
+}
+
+.DemoPage-container {
+    margin: 15px 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+.DemoPage-container > div {
+    border: 1px solid transparent;
+    transition: border 0.5s ease-in-out;
+}
+
+.DemoPage-container-bordered > div {
+    border: 1px solid black;
+}
