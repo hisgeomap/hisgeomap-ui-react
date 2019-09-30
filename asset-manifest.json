@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "/hisgeomap-ui-react/static/css/main.ad681148.chunk.css",
+    "main.js": "/hisgeomap-ui-react/static/js/main.0a31f7ad.chunk.js",
+    "main.js.map": "/hisgeomap-ui-react/static/js/main.0a31f7ad.chunk.js.map",
+    "runtime-main.js": "/hisgeomap-ui-react/static/js/runtime-main.33df7681.js",
+    "runtime-main.js.map": "/hisgeomap-ui-react/static/js/runtime-main.33df7681.js.map",
+    "static/css/2.653462cc.chunk.css": "/hisgeomap-ui-react/static/css/2.653462cc.chunk.css",
+    "static/js/2.1c442987.chunk.js": "/hisgeomap-ui-react/static/js/2.1c442987.chunk.js",
+    "static/js/2.1c442987.chunk.js.map": "/hisgeomap-ui-react/static/js/2.1c442987.chunk.js.map",
+    "index.html": "/hisgeomap-ui-react/index.html",
+    "precache-manifest.dc55e30cdd3f26be1a791ec999f33a16.js": "/hisgeomap-ui-react/precache-manifest.dc55e30cdd3f26be1a791ec999f33a16.js",
+    "service-worker.js": "/hisgeomap-ui-react/service-worker.js",
+    "static/css/2.653462cc.chunk.css.map": "/hisgeomap-ui-react/static/css/2.653462cc.chunk.css.map",
+    "static/css/main.ad681148.chunk.css.map": "/hisgeomap-ui-react/static/css/main.ad681148.chunk.css.map"
+  }
+}
