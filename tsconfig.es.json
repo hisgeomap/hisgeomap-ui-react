@@ -5,6 +5,7 @@
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "jsx": "react",
+        "declaration": true,
         "noUnusedParameters": true,
         "noUnusedLocals": true,
         "noImplicitAny": true,
