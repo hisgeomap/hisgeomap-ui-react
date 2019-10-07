@@ -2,20 +2,27 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Search, SidePanel } from ".";
+import { Search, SidePanel, Crown } from ".";
 import { Menu } from "antd";
 import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
+import packageJSON from "../package.json";
 
+const counter = (n: number) => {
+    const arr: number[] = [];
+    for (let i = 0; i < n; i++) {
+        arr.push(i);
+    }
+
+    return arr;
+};
 const data = {
     Search: {
-        dataSource: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(
-            e => "AutoComplete " + e
-        )
+        dataSource: counter(10).map(e => "AutoComplete " + e)
     }
 };
 
-const links = ["Home", "Search", "SidePanel"];
+const links = ["Home", "Search", "SidePanel", "Crown"];
 
 const App: React.FC = () => {
     const [title, setTitle] = useState(
@@ -24,8 +31,8 @@ const App: React.FC = () => {
         )
     );
     return (
-        <div className="fixed-layout">
-            <Router>
+        <div>
+            <Router basename={packageJSON.homepage}>
                 <SidePanel
                     offset="-250px"
                     className="navigation"
@@ -107,7 +114,10 @@ const App: React.FC = () => {
                                     {
                                         title: "Basic SidePanel",
                                         component: (
-                                            <SidePanel offset={"-80%"}>
+                                            <SidePanel
+                                                offset={"-80%"}
+                                                forbidList={["ant-slider"]}
+                                            >
                                                 <div className="side-panel-demo">
                                                     <Button>Side Panel</Button>
                                                     <Slider />
@@ -143,6 +153,28 @@ const App: React.FC = () => {
                                     }
                                 ]}
                             />
+                        </Route>
+                        <Route path="/Crown">
+                            <DemoPage
+                                name="Crown"
+                                components={[
+                                    {
+                                        title: "Basic Crown",
+                                        component: (
+                                            <Crown>
+                                                {counter(20).map(e => (
+                                                    <div
+                                                        className="crown-box"
+                                                        key={e}
+                                                    >
+                                                        {e}
+                                                    </div>
+                                                ))}
+                                            </Crown>
+                                        )
+                                    }
+                                ]}
+                            ></DemoPage>
                         </Route>
                     </Switch>
                 </div>

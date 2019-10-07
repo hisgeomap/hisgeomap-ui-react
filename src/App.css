@@ -5,19 +5,14 @@
     background: white;
 }
 
-.fixed-layout {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-}
-
 .fixed-layout-content {
     position: absolute;
-    left: 0;
-    top: 0;
     height: 100%;
     width: 100%;
+    top: 0;
+    left: 0;
     overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .normal .DemoPage-subsection-space {
@@ -40,7 +35,7 @@
 
 /* navigation */
 .navigation {
-    width: 250px;
+    /* width: 250px; */
     z-index: 5000;
     pointer-events: none;
 }
@@ -74,4 +69,11 @@
     position: absolute !important;
     padding: 5px !important;
     right: 10px;
+}
+
+.crown-box {
+    width: 40px;
+    height: 40px;
+    border: 1px solid white;
+    background: lightseagreen;
 }

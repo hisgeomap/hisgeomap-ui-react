@@ -3,7 +3,7 @@ import "./DemoPage.css";
 import { Switch, Divider } from "antd";
 import classNames from "classnames";
 export interface DemoPageProps {
-    className: string;
+    className?: string;
     name: string;
     components: any[];
 }
@@ -20,10 +20,14 @@ class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
         return (
             <div
                 key={key}
-                className={classNames("DemoPage-container", {
-                    "DemoPage-container-bordered": this.state
-                        .showComponentBorder
-                })}
+                className={classNames(
+                    "DemoPage-container",
+                    {
+                        "DemoPage-container-bordered": this.state
+                            .showComponentBorder
+                    },
+                    this.props.className
+                )}
             >
                 {component}
             </div>

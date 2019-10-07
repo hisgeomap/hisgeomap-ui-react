@@ -1,0 +1,15 @@
+.Crown {
+    list-style: none;
+    width: 100%;
+    overflow-x: auto;
+}
+
+.Crown-wrap {
+    width: fit-content;
+    height: fit-content;
+    white-space: nowrap;
+}
+
+.Crown-wrap > * {
+    display: inline-block;
+}

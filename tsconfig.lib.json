@@ -9,6 +9,7 @@
         "noUnusedLocals": true,
         "noImplicitAny": true,
         "target": "es5",
+        "resolveJsonModule": true,
         "lib": ["dom", "es2017"],
         "declaration": true
     },

@@ -5,10 +5,12 @@ export interface SidePanelProps {
     offset: string;
     trigger?: string;
     className?: string;
+    forbidList?: string[];
 }
 class SidePanel extends React.Component<SidePanelProps, any> {
     ref: React.RefObject<any> = React.createRef();
-    DragCore = new DragCore(this.ref, this.props.offset);
+    DragCore = new DragCore(this.ref, this.props.offset, this.props.forbidList);
+
     public render() {
         return (
             <div
@@ -19,8 +21,8 @@ class SidePanel extends React.Component<SidePanelProps, any> {
                 ref={this.ref}
                 draggable
                 onDragStart={this.DragCore.onDragStart}
-                onDrag={this.DragCore.onDrag}
                 onDragEnd={this.DragCore.onDragStop}
+                onDragOver={this.DragCore.onDrag}
                 onTouchStart={this.DragCore.onTouchStart}
                 onTouchMove={this.DragCore.onTouchMove}
                 onTouchEnd={this.DragCore.onTouchStop}
@@ -45,9 +47,7 @@ class SidePanel extends React.Component<SidePanelProps, any> {
 }
 
 class DragCore {
-    static image: Element = document.body.appendChild(
-        document.createElement("div")
-    );
+    image = new Image();
 
     static SIZE = 3;
     component: React.RefObject<any>;
@@ -68,10 +68,19 @@ class DragCore {
     // adaptation for inside drag component
     dragging: boolean = false;
 
-    constructor(ref: React.RefObject<any>, offset: string) {
+    forbidList: string[] = [];
+
+    constructor(
+        ref: React.RefObject<any>,
+        offset: string,
+        forbidList: string[] = []
+    ) {
         this.component = ref;
         this.defaultOffset = offset.trim();
         this.offset = this.defaultOffset;
+        this.image.src =
+            "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
+        this.forbidList = forbidList;
     }
 
     addPos = (pos: number[]) => {
@@ -93,11 +102,12 @@ class DragCore {
         this.onDrag(event);
     };
 
-    onTouchStop = () => {
-        this.onDragStop();
+    onTouchStop = (event: any) => {
+        this.onDragStop(event);
     };
 
     onDragStart = (event: any) => {
+        event && event.stopPropagation();
         const component = this.component.current;
         const pos = [event.screenX, event.screenY];
         this.pos = [];
@@ -106,8 +116,11 @@ class DragCore {
         this.first = true;
         this.dragging = true;
         if (event.dataTransfer) {
-            event.dataTransfer.setDragImage(DragCore.image, 0, 0);
+            // Fix: Firefox draggable issue
+            event.dataTransfer.setData("Text", "");
+            event.dataTransfer.setDragImage(this.image, 0, 0);
         }
+
         if (component) {
             this.scrollTop = component.scrollTop;
             component.style.transition = "none";
@@ -115,15 +128,16 @@ class DragCore {
     };
 
     onDrag = (event: any) => {
+        event && event.stopPropagation();
         const pos = [event.screenX, event.screenY];
         const component = this.component.current;
-
         if (this.dragging && pos[0] !== 0 && component && this.startPos) {
             if (this.first) {
                 this.isVertical =
                     Math.abs(this.pos[0][1] - pos[1]) -
-                        Math.abs(this.pos[0][0] - pos[0]) >=
+                        Math.abs(this.pos[0][0] - pos[0]) >
                     0;
+
                 this.first = false;
             }
 
@@ -133,34 +147,37 @@ class DragCore {
                 this.direction =
                     direction === 0 ? this.direction : direction > 0;
                 this.addPos(pos);
-                component.style.transform = `translateX(${this.offset}) translate(${diff}px,0)`;
                 component.scrollTop = this.scrollTop;
+                component.style.transform = `translateX(${this.offset}) translate(${diff}px,0)`;
             }
         }
     };
 
-    onDragStop = () => {
+    onDragStop = (event: any) => {
+        event && event.stopPropagation();
         const component = this.component.current;
-        this.dragging = false;
-        if (!this.direction && component) {
-            this.offset = this.defaultOffset;
-        } else {
-            this.offset = "0";
-        }
-
-        if (!this.isVertical) {
-            component.scrollTop = this.scrollTop;
-            component.style.transform = `translateX(${this.offset}) translate(0,0)`;
-            component.style.transition = this.transition;
+        if (component && this.dragging) {
+            if (!this.direction) {
+                this.offset = this.defaultOffset;
+            } else {
+                this.offset = "0";
+            }
+            if (!this.isVertical) {
+                component.scrollTop = this.scrollTop;
+                component.style.transition = this.transition;
+                component.style.transform = `translateX(${this.offset}) translate(0,0)`;
+            }
+            this.dragging = false;
         }
     };
 
     trigger = () => {
         this.direction = !this.direction;
-        this.onDragStop();
+        this.dragging = true;
+        const component = this.component.current;
+        this.scrollTop = component ? component.scrollTop : null;
+        this.onDragStop(null);
     };
-
-    animmate = () => {};
 }
 
 export default SidePanel;
