@@ -2,8 +2,8 @@
     "name": "hisgeomap-ui-react",
     "version": "0.1.0",
     "private": true,
-    "main": "lib/index.js",
-    "module": "es/index.js",
+    "main": "lib/src/index.js",
+    "module": "es/src/index.js",
     "homepage": "https://hisgeomap.github.io/hisgeomap-ui-react/",
     "dependencies": {
         "antd": "^3.23.4",
@@ -20,8 +20,8 @@
         "build:lib": "shx rm -r lib; tsc -p tsconfig.lib.json --outDir lib; yarn run copyfiles:lib",
         "deploy": "gh-pages -d demo",
         "test": "node scripts/test.js",
-        "copyfiles:lib": "copyfiles -u 1 \"src/**/*.+(css|jpg|jpeg|png|woff|woff2|eot|ttf|svg)\" lib",
-        "copyfiles:es": "copyfiles -u 1 \"src/**/*.+(css|jpg|jpeg|png|woff|woff2|eot|ttf|svg)\" es"
+        "copyfiles:lib": "copyfiles -u 1 \"src/**/*.+(css|jpg|jpeg|png|woff|woff2|eot|ttf|svg)\" lib/src",
+        "copyfiles:es": "copyfiles -u 1 \"src/**/*.+(css|jpg|jpeg|png|woff|woff2|eot|ttf|svg)\" es/src"
     },
     "eslintConfig": {
         "extends": "react-app"

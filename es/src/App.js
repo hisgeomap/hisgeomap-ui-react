@@ -24,7 +24,7 @@ const crownRef = React.createRef();
 const App = () => {
     const [title, setTitle] = useState(window.location.pathname.substr(window.location.pathname.lastIndexOf("/") + 1));
     return (React.createElement("div", null,
-        React.createElement(Router, { basename: packageJSON.homepage },
+        React.createElement(Router, { basename: "/" + packageJSON.name },
             React.createElement(SidePanel, { offset: "-250px", className: "navigation", trigger: ".menu-btn" },
                 React.createElement(Menu, { className: "menu", selectedKeys: [title.toLowerCase()] }, links.map(e => (React.createElement(Menu.Item, { key: e.toLowerCase() },
                     React.createElement(Link, { to: "/" + e, onClick: () => setTitle(e) }, e))))),
