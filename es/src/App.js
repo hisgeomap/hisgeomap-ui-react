@@ -2,20 +2,29 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Search, SidePanel } from ".";
-import { Menu } from "antd";
+import { Search, SidePanel, Crown } from ".";
+import { Menu, Tooltip } from "antd";
 import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
+import packageJSON from "../package.json";
+const counter = (n) => {
+    const arr = [];
+    for (let i = 0; i < n; i++) {
+        arr.push(i);
+    }
+    return arr;
+};
 const data = {
     Search: {
-        dataSource: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10].map(e => "AutoComplete " + e)
+        dataSource: counter(10).map(e => "AutoComplete " + e)
     }
 };
-const links = ["Home", "Search", "SidePanel"];
+const links = ["Home", "Search", "SidePanel", "Crown"];
+const crownRef = React.createRef();
 const App = () => {
     const [title, setTitle] = useState(window.location.pathname.substr(window.location.pathname.lastIndexOf("/") + 1));
-    return (React.createElement("div", { className: "fixed-layout" },
-        React.createElement(Router, null,
+    return (React.createElement("div", null,
+        React.createElement(Router, { basename: packageJSON.homepage },
             React.createElement(SidePanel, { offset: "-250px", className: "navigation", trigger: ".menu-btn" },
                 React.createElement(Menu, { className: "menu", selectedKeys: [title.toLowerCase()] }, links.map(e => (React.createElement(Menu.Item, { key: e.toLowerCase() },
                     React.createElement(Link, { to: "/" + e, onClick: () => setTitle(e) }, e))))),
@@ -46,7 +55,7 @@ const App = () => {
                         React.createElement(DemoPage, { className: "large absolute", name: "SidePanel", components: [
                                 {
                                     title: "Basic SidePanel",
-                                    component: (React.createElement(SidePanel, { offset: "-80%" },
+                                    component: (React.createElement(SidePanel, { offset: "-80%", forbidList: ["ant-slider"] },
                                         React.createElement("div", { className: "side-panel-demo" },
                                             React.createElement(Button, null, "Side Panel"),
                                             React.createElement(Slider, null),
@@ -59,6 +68,19 @@ const App = () => {
                                         React.createElement("div", { className: "side-panel-demo" },
                                             React.createElement(Button, { disabled: true }, "Side Panel"),
                                             React.createElement(Button, { className: "side-panel-trigger" }, "Trigger"))))
+                                }
+                            ] })),
+                    React.createElement(Route, { path: "/Crown" },
+                        React.createElement(DemoPage, { name: "Crown", components: [
+                                {
+                                    title: "Basic Crown",
+                                    component: (React.createElement(Crown, { components: counter(20).map(e => (React.createElement("div", { className: "crown-box" }, e))) }))
+                                },
+                                {
+                                    title: "Crown with ToolTip",
+                                    component: (React.createElement(Crown, { components: counter(20).map(e => (React.createElement("div", { className: "crown-box", ref: crownRef },
+                                            React.createElement(Tooltip, { title: "Tooltip" },
+                                                React.createElement("div", { className: "crown-box-content" }, e))))) }))
                                 }
                             ] })))))));
 };

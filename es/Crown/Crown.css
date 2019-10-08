@@ -1,0 +1,19 @@
+.Crown {
+    list-style: none;
+    width: 100%;
+    overflow-x: auto;
+    scrollbar-width: none;
+}
+.Crown::-webkit-scrollbar {
+    display: none;
+}
+
+.Crown-wrap {
+    width: fit-content;
+    height: fit-content;
+    white-space: nowrap;
+}
+
+.Crown-element {
+    display: inline-block;
+}

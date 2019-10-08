@@ -12,7 +12,7 @@ class DemoPage extends React.Component {
             return (React.createElement("div", { key: key, className: classNames("DemoPage-container", {
                     "DemoPage-container-bordered": this.state
                         .showComponentBorder
-                }) }, component));
+                }, this.props.className) }, component));
         };
     }
     render() {

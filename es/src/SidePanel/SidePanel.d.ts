@@ -4,6 +4,7 @@ export interface SidePanelProps {
     offset: string;
     trigger?: string;
     className?: string;
+    forbidList?: string[];
 }
 declare class SidePanel extends React.Component<SidePanelProps, any> {
     ref: React.RefObject<any>;
@@ -13,7 +14,7 @@ declare class SidePanel extends React.Component<SidePanelProps, any> {
     bindTrigger: () => void;
 }
 declare class DragCore {
-    static image: Element;
+    image: HTMLImageElement;
     static SIZE: number;
     component: React.RefObject<any>;
     offset: string;
@@ -26,15 +27,15 @@ declare class DragCore {
     isVertical: boolean;
     scrollTop: number;
     dragging: boolean;
-    constructor(ref: React.RefObject<any>, offset: string);
+    forbidList: string[];
+    constructor(ref: React.RefObject<any>, offset: string, forbidList?: string[]);
     addPos: (pos: number[]) => void;
     onTouchStart: (event: any) => void;
     onTouchMove: (event: any) => void;
-    onTouchStop: () => void;
+    onTouchStop: (event: any) => void;
     onDragStart: (event: any) => void;
     onDrag: (event: any) => void;
-    onDragStop: () => void;
+    onDragStop: (event: any) => void;
     trigger: () => void;
-    animmate: () => void;
 }
 export default SidePanel;

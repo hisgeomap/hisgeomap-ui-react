@@ -32,7 +32,7 @@ const App: React.FC = () => {
     );
     return (
         <div>
-            <Router basename={packageJSON.homepage}>
+            <Router basename={"/" + packageJSON.name}>
                 <SidePanel
                     offset="-250px"
                     className="navigation"

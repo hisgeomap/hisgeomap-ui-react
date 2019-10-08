@@ -1,7 +1,7 @@
 import * as React from "react";
 import "./DemoPage.css";
 export interface DemoPageProps {
-    className: string;
+    className?: string;
     name: string;
     components: any[];
 }
