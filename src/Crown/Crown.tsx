@@ -4,6 +4,8 @@ import "./Crown.css";
 interface CrownProps {
     className?: string;
     width?: string | number;
+    components: any[];
+    speed?: number;
 }
 interface CrownState {}
 class Crown extends React.Component<CrownProps, CrownState> {
@@ -11,8 +13,10 @@ class Crown extends React.Component<CrownProps, CrownState> {
     timer?: NodeJS.Timeout;
     animation?: number;
     isAnimated: boolean = false;
+    speed: number = this.props.speed === undefined ? 10 : this.props.speed;
 
     animate = (
+        speed: number,
         dest: number,
         positive: boolean,
         setValue: Function,
@@ -20,7 +24,6 @@ class Crown extends React.Component<CrownProps, CrownState> {
         last?: number
     ) => {
         this.isAnimated = true;
-        const speed = 10;
         const component = this.ref.current;
         if (component) {
             this.animation = requestAnimationFrame(() => {
@@ -28,27 +31,21 @@ class Crown extends React.Component<CrownProps, CrownState> {
                 if (last === cur) {
                     return;
                 }
-
                 const velocity = positive ? speed : -speed;
-
-                if (positive) {
-                    if (cur < dest) {
-                        const value = cur + speed;
-                        setValue(value);
-                        this.animate(dest, positive, setValue, getValue, cur);
-                    } else {
-                        setValue(dest);
-                        this.isAnimated = false;
-                    }
+                if ((positive && cur < dest) || (!positive && cur > dest)) {
+                    const value = cur + velocity;
+                    setValue(value);
+                    this.animate(
+                        speed,
+                        dest,
+                        positive,
+                        setValue,
+                        getValue,
+                        cur
+                    );
                 } else {
-                    if (cur > dest) {
-                        const value = cur - speed;
-                        setValue(value);
-                        this.animate(dest, positive, setValue, getValue, cur);
-                    } else {
-                        setValue(dest);
-                        this.isAnimated = false;
-                    }
+                    setValue(dest);
+                    this.isAnimated = false;
                 }
             });
         }
@@ -75,6 +72,7 @@ class Crown extends React.Component<CrownProps, CrownState> {
                 box.width / 2 -
                 nodeBox.width / 2;
             this.animate(
+                clientX === undefined ? this.speed / 5 : this.speed,
                 offsetLeft,
                 offsetLeft > component.scrollLeft,
                 (value: number) => (component.scrollLeft = value),
@@ -89,14 +87,13 @@ class Crown extends React.Component<CrownProps, CrownState> {
 
     reset = () => {
         this.timer !== undefined && clearTimeout(this.timer);
-        // this.animation !== undefined && cancelAnimationFrame(this.animation);
     };
 
     onScroll = (e: any) => {
         this.reset();
         this.timer = setTimeout(() => {
             this.center();
-        }, 100);
+        }, 200);
     };
     public render() {
         return (
@@ -108,9 +105,13 @@ class Crown extends React.Component<CrownProps, CrownState> {
                 // onScroll={this.onScroll}
             >
                 <div className="Crown-wrap" onClick={this.onClick}>
-                    {/* <li className="Crown-left" style={{}} /> */}
-                    {this.props.children}
-                    {/* <li className="Crown-right" /> */}
+                    {this.props.components.map((e, i: number) => {
+                        return (
+                            <div className="Crown-element" key={i}>
+                                {e}
+                            </div>
+                        );
+                    })}
                 </div>
             </div>
         );

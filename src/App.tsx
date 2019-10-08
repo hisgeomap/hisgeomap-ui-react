@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, RefObject } from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
 import { Search, SidePanel, Crown } from ".";
-import { Menu } from "antd";
+import { Menu, Tooltip } from "antd";
 import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
 import packageJSON from "../package.json";
@@ -23,7 +23,7 @@ const data = {
 };
 
 const links = ["Home", "Search", "SidePanel", "Crown"];
-
+const crownRef: RefObject<any> = React.createRef();
 const App: React.FC = () => {
     const [title, setTitle] = useState(
         window.location.pathname.substr(
@@ -161,16 +161,36 @@ const App: React.FC = () => {
                                     {
                                         title: "Basic Crown",
                                         component: (
-                                            <Crown>
-                                                {counter(20).map(e => (
-                                                    <div
-                                                        className="crown-box"
-                                                        key={e}
-                                                    >
-                                                        {e}
-                                                    </div>
-                                                ))}
-                                            </Crown>
+                                            <Crown
+                                                components={counter(20).map(
+                                                    e => (
+                                                        <div className="crown-box">
+                                                            {e}
+                                                        </div>
+                                                    )
+                                                )}
+                                            ></Crown>
+                                        )
+                                    },
+                                    {
+                                        title: "Crown with ToolTip",
+                                        component: (
+                                            <Crown
+                                                components={counter(20).map(
+                                                    e => (
+                                                        <div
+                                                            className="crown-box"
+                                                            ref={crownRef}
+                                                        >
+                                                            <Tooltip title="Tooltip">
+                                                                <div className="crown-box-content">
+                                                                    {e}
+                                                                </div>
+                                                            </Tooltip>
+                                                        </div>
+                                                    )
+                                                )}
+                                            ></Crown>
                                         )
                                     }
                                 ]}
