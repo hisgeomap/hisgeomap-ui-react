@@ -1,17 +1,17 @@
 {
   "files": {
-    "main.css": "/hisgeomap-ui-react/static/css/main.93ad5e0e.chunk.css",
-    "main.js": "/hisgeomap-ui-react/static/js/main.5ddf7e6f.chunk.js",
-    "main.js.map": "/hisgeomap-ui-react/static/js/main.5ddf7e6f.chunk.js.map",
+    "main.css": "/hisgeomap-ui-react/static/css/main.6353f9fa.chunk.css",
+    "main.js": "/hisgeomap-ui-react/static/js/main.fabc5175.chunk.js",
+    "main.js.map": "/hisgeomap-ui-react/static/js/main.fabc5175.chunk.js.map",
     "runtime-main.js": "/hisgeomap-ui-react/static/js/hisgeomap-ui-react.js",
     "runtime-main.js.map": "/hisgeomap-ui-react/static/js/hisgeomap-ui-react.js.map",
     "static/css/2.653462cc.chunk.css": "/hisgeomap-ui-react/static/css/2.653462cc.chunk.css",
-    "static/js/2.4582596f.chunk.js": "/hisgeomap-ui-react/static/js/2.4582596f.chunk.js",
-    "static/js/2.4582596f.chunk.js.map": "/hisgeomap-ui-react/static/js/2.4582596f.chunk.js.map",
+    "static/js/2.dea03d52.chunk.js": "/hisgeomap-ui-react/static/js/2.dea03d52.chunk.js",
+    "static/js/2.dea03d52.chunk.js.map": "/hisgeomap-ui-react/static/js/2.dea03d52.chunk.js.map",
     "index.html": "/hisgeomap-ui-react/index.html",
-    "precache-manifest.ef87c58b3c46e55135a78bbd2e6bdfdc.js": "/hisgeomap-ui-react/precache-manifest.ef87c58b3c46e55135a78bbd2e6bdfdc.js",
+    "precache-manifest.4f101abb0b270443a5d8b63baef0b29d.js": "/hisgeomap-ui-react/precache-manifest.4f101abb0b270443a5d8b63baef0b29d.js",
     "service-worker.js": "/hisgeomap-ui-react/service-worker.js",
     "static/css/2.653462cc.chunk.css.map": "/hisgeomap-ui-react/static/css/2.653462cc.chunk.css.map",
-    "static/css/main.93ad5e0e.chunk.css.map": "/hisgeomap-ui-react/static/css/main.93ad5e0e.chunk.css.map"
+    "static/css/main.6353f9fa.chunk.css.map": "/hisgeomap-ui-react/static/css/main.6353f9fa.chunk.css.map"
   }
 }
