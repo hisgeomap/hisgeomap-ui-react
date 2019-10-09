@@ -7,7 +7,7 @@ import { AutoCompleteProps } from "antd/lib/auto-complete";
 export interface SearchProps extends AutoCompleteProps {
     type?: "line" | "block";
     history?: string;
-    historyRender?: Function;
+    render?: Function;
     onClose?: Function;
 }
 
@@ -69,15 +69,19 @@ class Search extends React.Component<SearchProps, SearchState> {
         };
     };
 
-    onSelect = (value: any) => {
+    onSelect = (value: any, options: any, fromHistory?: boolean) => {
         this.dataManager.add(value);
         this.props.onSelect && this.props.onSelect(value, {});
-        this.setState({ ...this.state, history: this.dataManager.data, value });
+        this.setState({
+            ...this.state,
+            history: this.dataManager.data,
+            value: this.props.render ? this.props.render(value) : value
+        });
     };
 
     onClickHandle = (value: string) => {
         return () => {
-            this.onSelect(value);
+            this.onSelect(value, true);
         };
     };
 
@@ -108,9 +112,7 @@ class Search extends React.Component<SearchProps, SearchState> {
                             onClick={this.onClickHandle(e)}
                             onClose={this.onCloseHandle(e)}
                         >
-                            {this.props.historyRender
-                                ? this.props.historyRender(e)
-                                : e}
+                            {this.props.render ? this.props.render(e) : e}
                         </Tag>
                     ))}
                 </div>

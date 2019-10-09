@@ -50,14 +50,14 @@ class Search extends React.Component {
                 this.setState(Object.assign(Object.assign({}, this.state), { history: this.dataManager.data }));
             };
         };
-        this.onSelect = (value) => {
+        this.onSelect = (value, options, fromHistory) => {
             this.dataManager.add(value);
             this.props.onSelect && this.props.onSelect(value, {});
-            this.setState(Object.assign(Object.assign({}, this.state), { history: this.dataManager.data, value }));
+            this.setState(Object.assign(Object.assign({}, this.state), { history: this.dataManager.data, value: this.props.render ? this.props.render(value) : value }));
         };
         this.onClickHandle = (value) => {
             return () => {
-                this.onSelect(value);
+                this.onSelect(value, true);
             };
         };
         this.onChange = (value) => {
@@ -70,9 +70,7 @@ class Search extends React.Component {
             React.createElement(AutoComplete, Object.assign({}, this.props, { onSelect: this.onSelect, value: this.state.value, onChange: this.onChange, className: classNames("SearchInput", {
                     SearchLine: this.props.type === "line"
                 }) })),
-            React.createElement("div", { className: "SearchHistory" }, this.state.history.map((e, i) => (React.createElement(Tag, { className: "SearchHistory-tag", key: e + i, closable: true, onClick: this.onClickHandle(e), onClose: this.onCloseHandle(e) }, this.props.historyRender
-                ? this.props.historyRender(e)
-                : e))))));
+            React.createElement("div", { className: "SearchHistory" }, this.state.history.map((e, i) => (React.createElement(Tag, { className: "SearchHistory-tag", key: e + i, closable: true, onClick: this.onClickHandle(e), onClose: this.onCloseHandle(e) }, this.props.render ? this.props.render(e) : e))))));
     }
 }
 export default Search;

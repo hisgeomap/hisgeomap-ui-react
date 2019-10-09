@@ -7,6 +7,7 @@ import { Menu, Tooltip } from "antd";
 import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
 import packageJSON from "../package.json";
+import SideNotification from "./SideNotification";
 
 const counter = (n: number) => {
     const arr: number[] = [];
@@ -22,7 +23,7 @@ const data = {
     }
 };
 
-const links = ["Home", "Search", "SidePanel", "Crown"];
+const links = ["Home", "Search", "SidePanel", "Crown", "SideNotification"];
 const crownRef: RefObject<any> = React.createRef();
 const App: React.FC = () => {
     const [title, setTitle] = useState(
@@ -97,6 +98,9 @@ const App: React.FC = () => {
                                             <Search
                                                 type="line"
                                                 history="hisgeomap-example"
+                                                render={(value: any) =>
+                                                    `(${value})`
+                                                }
                                                 dataSource={
                                                     data.Search.dataSource
                                                 }
@@ -195,6 +199,17 @@ const App: React.FC = () => {
                                     }
                                 ]}
                             ></DemoPage>
+                        </Route>
+                        <Route path="/SideNotification">
+                            <DemoPage
+                                name="SideNotification"
+                                components={[
+                                    {
+                                        title: "Basic SideNotification",
+                                        component: <SideNotification />
+                                    }
+                                ]}
+                            />
                         </Route>
                     </Switch>
                 </div>

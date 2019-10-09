@@ -4,7 +4,7 @@ import { AutoCompleteProps } from "antd/lib/auto-complete";
 export interface SearchProps extends AutoCompleteProps {
     type?: "line" | "block";
     history?: string;
-    historyRender?: Function;
+    render?: Function;
     onClose?: Function;
 }
 interface SearchState {
@@ -26,7 +26,7 @@ declare class Search extends React.Component<SearchProps, SearchState> {
         value: string;
     };
     onCloseHandle: (value: string) => (e: any) => void;
-    onSelect: (value: any) => void;
+    onSelect: (value: any, options: any, fromHistory?: boolean | undefined) => void;
     onClickHandle: (value: string) => () => void;
     onChange: (value: any) => void;
     render(): JSX.Element;

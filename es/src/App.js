@@ -7,6 +7,7 @@ import { Menu, Tooltip } from "antd";
 import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
 import packageJSON from "../package.json";
+import SideNotification from "./SideNotification";
 const counter = (n) => {
     const arr = [];
     for (let i = 0; i < n; i++) {
@@ -19,7 +20,7 @@ const data = {
         dataSource: counter(10).map(e => "AutoComplete " + e)
     }
 };
-const links = ["Home", "Search", "SidePanel", "Crown"];
+const links = ["Home", "Search", "SidePanel", "Crown", "SideNotification"];
 const crownRef = React.createRef();
 const App = () => {
     const [title, setTitle] = useState(window.location.pathname.substr(window.location.pathname.lastIndexOf("/") + 1));
@@ -48,7 +49,7 @@ const App = () => {
                                 },
                                 {
                                     title: "Search History",
-                                    component: (React.createElement(Search, { type: "line", history: "hisgeomap-example", dataSource: data.Search.dataSource }))
+                                    component: (React.createElement(Search, { type: "line", history: "hisgeomap-example", render: (value) => `(${value})`, dataSource: data.Search.dataSource }))
                                 }
                             ] })),
                     React.createElement(Route, { path: "/SidePanel" },
@@ -81,6 +82,13 @@ const App = () => {
                                     component: (React.createElement(Crown, { components: counter(20).map(e => (React.createElement("div", { className: "crown-box", ref: crownRef },
                                             React.createElement(Tooltip, { title: "Tooltip" },
                                                 React.createElement("div", { className: "crown-box-content" }, e))))) }))
+                                }
+                            ] })),
+                    React.createElement(Route, { path: "/SideNotification" },
+                        React.createElement(DemoPage, { name: "SideNotification", components: [
+                                {
+                                    title: "Basic SideNotification",
+                                    component: React.createElement(SideNotification, null)
                                 }
                             ] })))))));
 };
