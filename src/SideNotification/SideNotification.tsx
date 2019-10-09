@@ -2,7 +2,8 @@ import * as React from "react";
 import { Button, notification } from "antd";
 import classNames from "classnames";
 import "./SideNotification.css";
-interface SideNotificationProps {
+import { ButtonProps } from "antd/lib/button";
+interface SideNotificationProps extends ButtonProps {
     single?: boolean;
     message?: any;
     className?: string;
@@ -11,6 +12,7 @@ class SideNotification extends React.Component<SideNotificationProps, any> {
     open: boolean = false;
     static defaultProps = {
         single: true,
+        shape: "circle",
         message: {
             duration: 20,
             message: "常见问题",
@@ -54,10 +56,8 @@ class SideNotification extends React.Component<SideNotificationProps, any> {
     public render() {
         return (
             <Button
-                type="primary"
+                {...this.props}
                 className={classNames("Notification-btn", this.props.className)}
-                ghost
-                shape="circle"
                 onClick={this.notify}
             >
                 ?

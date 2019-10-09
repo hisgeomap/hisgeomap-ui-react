@@ -1,6 +1,7 @@
 import * as React from "react";
 import "./SideNotification.css";
-interface SideNotificationProps {
+import { ButtonProps } from "antd/lib/button";
+interface SideNotificationProps extends ButtonProps {
     single?: boolean;
     message?: any;
     className?: string;
@@ -9,6 +10,7 @@ declare class SideNotification extends React.Component<SideNotificationProps, an
     open: boolean;
     static defaultProps: {
         single: boolean;
+        shape: string;
         message: {
             duration: number;
             message: string;

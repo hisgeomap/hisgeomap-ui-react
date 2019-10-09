@@ -21,11 +21,12 @@ class SideNotification extends React.Component {
         };
     }
     render() {
-        return (React.createElement(Button, { type: "primary", className: classNames("Notification-btn", this.props.className), ghost: true, shape: "circle", onClick: this.notify }, "?"));
+        return (React.createElement(Button, Object.assign({}, this.props, { className: classNames("Notification-btn", this.props.className), onClick: this.notify }), "?"));
     }
 }
 SideNotification.defaultProps = {
     single: true,
+    shape: "circle",
     message: {
         duration: 20,
         message: "常见问题",
