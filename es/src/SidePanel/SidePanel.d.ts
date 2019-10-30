@@ -3,6 +3,7 @@ import "./SidePanel.css";
 export interface SidePanelProps {
     offset: string;
     trigger?: string;
+    defaultExpand?: boolean;
     className?: string;
     forbidList?: string[];
 }
@@ -28,7 +29,7 @@ declare class DragCore {
     scrollTop: number;
     dragging: boolean;
     forbidList: string[];
-    constructor(ref: React.RefObject<any>, offset: string, forbidList?: string[]);
+    constructor(ref: React.RefObject<any>, offset: string, expand?: boolean, forbidList?: string[]);
     addPos: (pos: number[]) => void;
     onTouchStart: (event: any) => void;
     onTouchMove: (event: any) => void;

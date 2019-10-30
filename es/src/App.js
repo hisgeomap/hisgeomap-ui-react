@@ -69,6 +69,12 @@ const App = () => {
                                         React.createElement("div", { className: "side-panel-demo" },
                                             React.createElement(Button, { disabled: true }, "Side Panel"),
                                             React.createElement(Button, { className: "side-panel-trigger" }, "Trigger"))))
+                                },
+                                {
+                                    title: "SidePanel Default Expand",
+                                    component: (React.createElement(SidePanel, { offset: "-80%", defaultExpand: true },
+                                        React.createElement("div", { className: "side-panel-demo" },
+                                            React.createElement(Button, { disabled: true }, "Side Panel"))))
                                 }
                             ] })),
                     React.createElement(Route, { path: "/Crown" },

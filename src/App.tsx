@@ -154,6 +154,21 @@ const App: React.FC = () => {
                                                 </div>
                                             </SidePanel>
                                         )
+                                    },
+                                    {
+                                        title: "SidePanel Default Expand",
+                                        component: (
+                                            <SidePanel
+                                                offset={"-80%"}
+                                                defaultExpand={true}
+                                            >
+                                                <div className="side-panel-demo">
+                                                    <Button disabled>
+                                                        Side Panel
+                                                    </Button>
+                                                </div>
+                                            </SidePanel>
+                                        )
                                     }
                                 ]}
                             />

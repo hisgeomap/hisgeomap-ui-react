@@ -5,7 +5,7 @@ class SidePanel extends React.Component {
     constructor() {
         super(...arguments);
         this.ref = React.createRef();
-        this.DragCore = new DragCore(this.ref, this.props.offset, this.props.forbidList);
+        this.DragCore = new DragCore(this.ref, this.props.offset, this.props.defaultExpand, this.props.forbidList);
         this.componentDidMount = () => {
             this.bindTrigger();
         };
@@ -20,12 +20,12 @@ class SidePanel extends React.Component {
     }
     render() {
         return (React.createElement("div", { className: classNames("SidePanel", this.props.className), style: {
-                transform: `translateX(${this.props.offset}) translate(0,0)`
+                transform: `translateX(${this.DragCore.offset}) translate(0,0)`
             }, ref: this.ref, draggable: true, onDragStart: this.DragCore.onDragStart, onDragEnd: this.DragCore.onDragStop, onDragOver: this.DragCore.onDrag, onTouchStart: this.DragCore.onTouchStart, onTouchMove: this.DragCore.onTouchMove, onTouchEnd: this.DragCore.onTouchStop }, this.props.children));
     }
 }
 class DragCore {
-    constructor(ref, offset, forbidList = []) {
+    constructor(ref, offset, expand = false, forbidList = []) {
         this.image = new Image();
         this.transition = "0.3s transform ease-in-out";
         this.direction = false;
@@ -126,7 +126,7 @@ class DragCore {
         };
         this.component = ref;
         this.defaultOffset = offset.trim();
-        this.offset = this.defaultOffset;
+        this.offset = expand ? "0" : this.defaultOffset;
         this.image.src =
             "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
         this.forbidList = forbidList;

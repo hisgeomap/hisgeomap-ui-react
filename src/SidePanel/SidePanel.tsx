@@ -4,19 +4,25 @@ import classNames from "classnames";
 export interface SidePanelProps {
     offset: string;
     trigger?: string;
+    defaultExpand?: boolean;
     className?: string;
     forbidList?: string[];
 }
 class SidePanel extends React.Component<SidePanelProps, any> {
     ref: React.RefObject<any> = React.createRef();
-    DragCore = new DragCore(this.ref, this.props.offset, this.props.forbidList);
+    DragCore = new DragCore(
+        this.ref,
+        this.props.offset,
+        this.props.defaultExpand,
+        this.props.forbidList
+    );
 
     public render() {
         return (
             <div
                 className={classNames("SidePanel", this.props.className)}
                 style={{
-                    transform: `translateX(${this.props.offset}) translate(0,0)`
+                    transform: `translateX(${this.DragCore.offset}) translate(0,0)`
                 }}
                 ref={this.ref}
                 draggable
@@ -73,11 +79,12 @@ class DragCore {
     constructor(
         ref: React.RefObject<any>,
         offset: string,
+        expand: boolean = false,
         forbidList: string[] = []
     ) {
         this.component = ref;
         this.defaultOffset = offset.trim();
-        this.offset = this.defaultOffset;
+        this.offset = expand ? "0" : this.defaultOffset;
         this.image.src =
             "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
         this.forbidList = forbidList;
