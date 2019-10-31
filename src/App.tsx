@@ -8,6 +8,7 @@ import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
 import packageJSON from "../package.json";
 import SideNotification from "./SideNotification";
+import DragPanel from "./DragPanel";
 
 const counter = (n: number) => {
     const arr: number[] = [];
@@ -23,7 +24,14 @@ const data = {
     }
 };
 
-const links = ["Home", "Search", "SidePanel", "Crown", "SideNotification"];
+const links = [
+    "Home",
+    "Search",
+    "SidePanel",
+    "Crown",
+    "SideNotification",
+    "DragPanel"
+];
 const crownRef: RefObject<any> = React.createRef();
 const App: React.FC = () => {
     const [title, setTitle] = useState(
@@ -222,6 +230,67 @@ const App: React.FC = () => {
                                     {
                                         title: "Basic SideNotification",
                                         component: <SideNotification />
+                                    }
+                                ]}
+                            />
+                        </Route>
+                        <Route path="/DragPanel">
+                            <DemoPage
+                                className="large absolute"
+                                name="DragPanel"
+                                components={[
+                                    {
+                                        title: "Basic DragPanel",
+                                        component: [
+                                            <DragPanel direction="vertical" />
+                                        ]
+                                    },
+                                    {
+                                        title: "DragPanel - State Control",
+                                        component: [
+                                            <DragPanel
+                                                direction="vertical"
+                                                states={[
+                                                    ["0", "0"],
+                                                    ["0", "40%"],
+                                                    ["0%", "70%"]
+                                                ]}
+                                                defaultState={2}
+                                            />,
+                                            <DragPanel
+                                                className="DragPanel-demo-backgound"
+                                                direction="vertical"
+                                                states={[
+                                                    ["0", "0"],
+                                                    ["0", "40%"],
+                                                    ["20%", "70%"]
+                                                ]}
+                                                defaultState={2}
+                                            />
+                                        ]
+                                    },
+                                    {
+                                        title: "DragPanel - Horizontal",
+                                        component: [
+                                            <DragPanel
+                                                direction="horizontal"
+                                                states={[
+                                                    ["0", "0"],
+                                                    ["40%", "0"],
+                                                    ["90%", "0"]
+                                                ]}
+                                                defaultState={2}
+                                            />,
+                                            <DragPanel
+                                                direction="horizontal"
+                                                states={[
+                                                    ["-90%", "0"],
+                                                    ["-40%", "0"],
+                                                    ["-20%", "0"]
+                                                ]}
+                                                defaultState={0}
+                                            />
+                                        ]
                                     }
                                 ]}
                             />
