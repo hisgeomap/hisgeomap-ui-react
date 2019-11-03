@@ -83,3 +83,9 @@
     width: 100%;
     height: 100%;
 }
+
+/* DragPanel */
+.DragPanel-demo-backgound {
+    background: yellow !important;
+    left: 200px;
+}

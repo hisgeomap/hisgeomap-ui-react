@@ -6,6 +6,9 @@ interface DragPanelProps {
     defaultState?: number;
     states?: string[][];
     direction: "horizontal" | "vertical" | "both";
+    handle?: string;
+    trigger?: string;
+    onTrigger?: Function;
 }
 class DragPanel extends React.Component<DragPanelProps, any> {
     ref: React.RefObject<any> = React.createRef();
@@ -15,22 +18,62 @@ class DragPanel extends React.Component<DragPanelProps, any> {
         this.props.states,
         this.props.defaultState
     );
+    componentDidMount = () => {
+        let handle = this.props.handle
+            ? document.querySelector(this.props.handle)
+            : this.ref.current;
+
+        let trigger = this.props.trigger
+            ? document.querySelector(this.props.trigger)
+            : null;
+
+        console.log(handle);
+        if (handle) {
+            handle.addEventListener("dragstart", this.DragCore.onDragStart);
+            handle.addEventListener("drag", this.DragCore.onDrag);
+            handle.addEventListener("dragend", this.DragCore.onDragStop);
+            handle.addEventListener("touchstart", this.DragCore.onTouchStart);
+            handle.addEventListener("touchmove", this.DragCore.onTouchMove);
+            handle.addEventListener("touchend", this.DragCore.onTouchStop);
+            handle.setAttribute("draggable", true);
+        }
+
+        if (trigger) {
+            console.log("a");
+            trigger.addEventListener("click", (e: any) => {
+                console.log("a");
+                if (this.props.onTrigger) {
+                    const stateIndex = this.props.onTrigger(
+                        this.DragCore.curPos.state,
+                        e
+                    );
+                    this.DragCore.curPos = {
+                        state:
+                            stateIndex !== undefined
+                                ? stateIndex
+                                : this.DragCore.curPos.state,
+                        displacement: [0, 0],
+                        pos: [0, 0]
+                    };
+                    this.DragCore.transform();
+                }
+            });
+        }
+    };
+
+    shouldComponentUpdate = () => false;
     public render() {
         return (
             <div
                 className={classNames("DragPanel", this.props.className)}
                 style={{
-                    transform: this.DragCore.getTransform()
+                    transform: this.DragCore.getTransform(),
+                    transition: this.DragCore.transition
                 }}
-                draggable
                 ref={this.ref}
-                onDragStart={this.DragCore.onDragStart}
-                onDrag={this.DragCore.onDrag}
-                onDragEnd={this.DragCore.onDragStop}
-                onTouchStart={this.DragCore.onTouchStart}
-                onTouchMove={this.DragCore.onTouchMove}
-                onTouchEnd={this.DragCore.onTouchStop}
-            ></div>
+            >
+                {this.props.children}
+            </div>
         );
     }
 }
@@ -84,13 +127,6 @@ class DragCore {
         this.image.src =
             "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
     }
-
-    addPos = (pos: number[]) => {
-        this.pos.unshift(pos);
-        if (this.pos.length > DragCore.SIZE) {
-            this.pos.pop();
-        }
-    };
 
     onTouchStart = (event: any) => {
         event.screenX = event.changedTouches[0].screenX;

@@ -121,7 +121,7 @@ const App: React.FC = () => {
                         <Route path="/SidePanel">
                             <DemoPage
                                 className="large absolute"
-                                name="SidePanel"
+                                name="SidePanel  (Will be Deprecated)"
                                 components={[
                                     {
                                         title: "Basic SidePanel",
@@ -242,31 +242,36 @@ const App: React.FC = () => {
                                     {
                                         title: "Basic DragPanel",
                                         component: [
-                                            <DragPanel direction="vertical" />
+                                            <DragPanel direction="vertical">
+                                                <Button>Drag Panel</Button>
+                                                <Slider />
+                                            </DragPanel>
                                         ]
                                     },
                                     {
                                         title: "DragPanel - State Control",
                                         component: [
-                                            <DragPanel
-                                                direction="vertical"
-                                                states={[
-                                                    ["0", "0"],
-                                                    ["0", "40%"],
-                                                    ["0%", "70%"]
-                                                ]}
-                                                defaultState={2}
-                                            />,
-                                            <DragPanel
-                                                className="DragPanel-demo-backgound"
-                                                direction="vertical"
-                                                states={[
-                                                    ["0", "0"],
-                                                    ["0", "40%"],
-                                                    ["20%", "70%"]
-                                                ]}
-                                                defaultState={2}
-                                            />
+                                            <div>
+                                                <DragPanel
+                                                    direction="vertical"
+                                                    states={[
+                                                        ["0", "0"],
+                                                        ["0", "40%"],
+                                                        ["20%", "70%"]
+                                                    ]}
+                                                    defaultState={2}
+                                                />
+                                                <DragPanel
+                                                    className="DragPanel-demo-backgound"
+                                                    direction="vertical"
+                                                    states={[
+                                                        ["0", "0"],
+                                                        ["0", "40%"],
+                                                        ["20%", "70%"]
+                                                    ]}
+                                                    defaultState={2}
+                                                />
+                                            </div>
                                         ]
                                     },
                                     {
@@ -276,20 +281,79 @@ const App: React.FC = () => {
                                                 direction="horizontal"
                                                 states={[
                                                     ["0", "0"],
-                                                    ["40%", "0"],
-                                                    ["90%", "0"]
+                                                    ["50%", "0%"],
+                                                    ["90%", "0%"]
                                                 ]}
-                                                defaultState={2}
-                                            />,
-                                            <DragPanel
-                                                direction="horizontal"
-                                                states={[
-                                                    ["-90%", "0"],
-                                                    ["-40%", "0"],
-                                                    ["-20%", "0"]
-                                                ]}
-                                                defaultState={0}
+                                                defaultState={1}
                                             />
+                                        ]
+                                    },
+                                    {
+                                        title: "DragPanel - Handle",
+                                        component: [
+                                            <div>
+                                                <DragPanel
+                                                    direction="vertical"
+                                                    states={[
+                                                        ["0%", "0"],
+                                                        ["0%", "40%"],
+                                                        ["0%", "90%"]
+                                                    ]}
+                                                    handle=".DragPanel-demo-handle"
+                                                    defaultState={2}
+                                                >
+                                                    <Button className="DragPanel-demo-handle">
+                                                        Handle
+                                                    </Button>
+                                                </DragPanel>
+                                                <DragPanel
+                                                    direction="vertical"
+                                                    handle=".DragPanel-demo-handle2"
+                                                    className="DragPanel-demo-backgound"
+                                                >
+                                                    <Button className="DragPanel-demo-handle2">
+                                                        Handle
+                                                    </Button>
+                                                </DragPanel>
+                                            </div>
+                                        ]
+                                    },
+                                    {
+                                        title: "DragPanel - Trigger",
+                                        component: [
+                                            <div>
+                                                <DragPanel
+                                                    direction="vertical"
+                                                    states={[
+                                                        ["0", "0"],
+                                                        ["0", "40%"],
+                                                        ["0%", "90%"]
+                                                    ]}
+                                                    trigger=".DragPanel-demo-trigger"
+                                                    onTrigger={() => 1}
+                                                    defaultState={2}
+                                                >
+                                                    <Button className="DragPanel-demo-trigger">
+                                                        Trigger
+                                                    </Button>
+                                                </DragPanel>
+                                                <DragPanel
+                                                    direction="horizontal"
+                                                    className="DragPanel-demo-backgound"
+                                                    states={[
+                                                        ["0%", "0"],
+                                                        ["20%", "0%"],
+                                                        ["40%", "0%"]
+                                                    ]}
+                                                    trigger=".DragPanel-demo-trigger2"
+                                                    onTrigger={() => 1}
+                                                    defaultState={0}
+                                                >
+                                                    <Button className="DragPanel-demo-trigger2">
+                                                        Trigger
+                                                    </Button>
+                                                </DragPanel>
+                                            </div>
                                         ]
                                     }
                                 ]}

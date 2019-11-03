@@ -8,6 +8,7 @@ import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
 import packageJSON from "../package.json";
 import SideNotification from "./SideNotification";
+import DragPanel from "./DragPanel";
 const counter = (n) => {
     const arr = [];
     for (let i = 0; i < n; i++) {
@@ -20,7 +21,14 @@ const data = {
         dataSource: counter(10).map(e => "AutoComplete " + e)
     }
 };
-const links = ["Home", "Search", "SidePanel", "Crown", "SideNotification"];
+const links = [
+    "Home",
+    "Search",
+    "SidePanel",
+    "Crown",
+    "SideNotification",
+    "DragPanel"
+];
 const crownRef = React.createRef();
 const App = () => {
     const [title, setTitle] = useState(window.location.pathname.substr(window.location.pathname.lastIndexOf("/") + 1));
@@ -53,7 +61,7 @@ const App = () => {
                                 }
                             ] })),
                     React.createElement(Route, { path: "/SidePanel" },
-                        React.createElement(DemoPage, { className: "large absolute", name: "SidePanel", components: [
+                        React.createElement(DemoPage, { className: "large absolute", name: "SidePanel  (Will be Deprecated)", components: [
                                 {
                                     title: "Basic SidePanel",
                                     component: (React.createElement(SidePanel, { offset: "-80%", forbidList: ["ant-slider"] },
@@ -95,6 +103,75 @@ const App = () => {
                                 {
                                     title: "Basic SideNotification",
                                     component: React.createElement(SideNotification, null)
+                                }
+                            ] })),
+                    React.createElement(Route, { path: "/DragPanel" },
+                        React.createElement(DemoPage, { className: "large absolute", name: "DragPanel", components: [
+                                {
+                                    title: "Basic DragPanel",
+                                    component: [
+                                        React.createElement(DragPanel, { direction: "vertical" },
+                                            React.createElement(Button, null, "Drag Panel"),
+                                            React.createElement(Slider, null))
+                                    ]
+                                },
+                                {
+                                    title: "DragPanel - State Control",
+                                    component: [
+                                        React.createElement("div", null,
+                                            React.createElement(DragPanel, { direction: "vertical", states: [
+                                                    ["0", "0"],
+                                                    ["0", "40%"],
+                                                    ["20%", "70%"]
+                                                ], defaultState: 2 }),
+                                            React.createElement(DragPanel, { className: "DragPanel-demo-backgound", direction: "vertical", states: [
+                                                    ["0", "0"],
+                                                    ["0", "40%"],
+                                                    ["20%", "70%"]
+                                                ], defaultState: 2 }))
+                                    ]
+                                },
+                                {
+                                    title: "DragPanel - Horizontal",
+                                    component: [
+                                        React.createElement(DragPanel, { direction: "horizontal", states: [
+                                                ["0", "0"],
+                                                ["50%", "0%"],
+                                                ["90%", "0%"]
+                                            ], defaultState: 1 })
+                                    ]
+                                },
+                                {
+                                    title: "DragPanel - Handle",
+                                    component: [
+                                        React.createElement("div", null,
+                                            React.createElement(DragPanel, { direction: "vertical", states: [
+                                                    ["0%", "0"],
+                                                    ["0%", "40%"],
+                                                    ["0%", "90%"]
+                                                ], handle: ".DragPanel-demo-handle", defaultState: 2 },
+                                                React.createElement(Button, { className: "DragPanel-demo-handle" }, "Handle")),
+                                            React.createElement(DragPanel, { direction: "vertical", handle: ".DragPanel-demo-handle2", className: "DragPanel-demo-backgound" },
+                                                React.createElement(Button, { className: "DragPanel-demo-handle2" }, "Handle")))
+                                    ]
+                                },
+                                {
+                                    title: "DragPanel - Trigger",
+                                    component: [
+                                        React.createElement("div", null,
+                                            React.createElement(DragPanel, { direction: "vertical", states: [
+                                                    ["0", "0"],
+                                                    ["0", "40%"],
+                                                    ["0%", "90%"]
+                                                ], trigger: ".DragPanel-demo-trigger", onTrigger: () => 1, defaultState: 2 },
+                                                React.createElement(Button, { className: "DragPanel-demo-trigger" }, "Trigger")),
+                                            React.createElement(DragPanel, { direction: "horizontal", className: "DragPanel-demo-backgound", states: [
+                                                    ["0%", "0"],
+                                                    ["20%", "0%"],
+                                                    ["40%", "0%"]
+                                                ], trigger: ".DragPanel-demo-trigger2", onTrigger: () => 1, defaultState: 0 },
+                                                React.createElement(Button, { className: "DragPanel-demo-trigger2" }, "Trigger")))
+                                    ]
                                 }
                             ] })))))));
 };

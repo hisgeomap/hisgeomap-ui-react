@@ -87,4 +87,5 @@
 /* DragPanel */
 .DragPanel-demo-backgound {
     background: yellow !important;
+    left: 200px;
 }
