@@ -2,13 +2,11 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Search, SidePanel, Crown } from ".";
+import { Search, SidePanel, Crown, SideNotification, DragPanel } from ".";
 import { Menu, Tooltip } from "antd";
 import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
 import packageJSON from "../package.json";
-import SideNotification from "./SideNotification";
-import DragPanel from "./DragPanel";
 const counter = (n) => {
     const arr = [];
     for (let i = 0; i < n; i++) {
@@ -112,7 +110,9 @@ const App = () => {
                                     component: [
                                         React.createElement(DragPanel, { direction: "vertical" },
                                             React.createElement(Button, null, "Drag Panel"),
-                                            React.createElement(Slider, null))
+                                            React.createElement(Slider, { onChange: () => {
+                                                    console.log("b");
+                                                } }))
                                     ]
                                 },
                                 {

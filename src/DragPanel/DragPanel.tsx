@@ -27,21 +27,34 @@ class DragPanel extends React.Component<DragPanelProps, any> {
             ? document.querySelector(this.props.trigger)
             : null;
 
-        console.log(handle);
         if (handle) {
-            handle.addEventListener("dragstart", this.DragCore.onDragStart);
-            handle.addEventListener("drag", this.DragCore.onDrag);
-            handle.addEventListener("dragend", this.DragCore.onDragStop);
-            handle.addEventListener("touchstart", this.DragCore.onTouchStart);
-            handle.addEventListener("touchmove", this.DragCore.onTouchMove);
-            handle.addEventListener("touchend", this.DragCore.onTouchStop);
+            handle.addEventListener(
+                "dragstart",
+                this.DragCore.onDragStart,
+                true
+            );
+            handle.addEventListener("drag", this.DragCore.onDrag, true);
+            handle.addEventListener("dragend", this.DragCore.onDragStop, true);
+            handle.addEventListener(
+                "touchstart",
+                this.DragCore.onTouchStart,
+                true
+            );
+            handle.addEventListener(
+                "touchmove",
+                this.DragCore.onTouchMove,
+                true
+            );
+            handle.addEventListener(
+                "touchend",
+                this.DragCore.onTouchStop,
+                true
+            );
             handle.setAttribute("draggable", true);
         }
 
         if (trigger) {
-            console.log("a");
             trigger.addEventListener("click", (e: any) => {
-                console.log("a");
                 if (this.props.onTrigger) {
                     const stateIndex = this.props.onTrigger(
                         this.DragCore.curPos.state,
@@ -148,6 +161,7 @@ class DragCore {
         event && event.stopPropagation();
         const component = this.component.current;
         this.startPos = [event.screenX, event.screenY];
+        console.dir(event);
 
         if (event.dataTransfer) {
             // Fix: Firefox draggable issue
@@ -279,7 +293,6 @@ class DragCore {
 
             let minI = -1;
             let min = Number.MAX_SAFE_INTEGER;
-            console.log(curPos);
             for (let i = 0; i < this.states.length; i++) {
                 const pos = this.calculateState(i, length);
                 let diff = min;
@@ -296,7 +309,6 @@ class DragCore {
                             (curPos[1] - pos[1]) ** 2;
                 }
 
-                console.log(i, diff);
                 minI = diff < min ? i : minI;
                 min = diff < min ? diff : min;
             }

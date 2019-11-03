@@ -2,13 +2,11 @@ import React, { useState, RefObject } from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Search, SidePanel, Crown } from ".";
+import { Search, SidePanel, Crown, SideNotification, DragPanel } from ".";
 import { Menu, Tooltip } from "antd";
 import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
 import packageJSON from "../package.json";
-import SideNotification from "./SideNotification";
-import DragPanel from "./DragPanel";
 
 const counter = (n: number) => {
     const arr: number[] = [];
@@ -244,7 +242,11 @@ const App: React.FC = () => {
                                         component: [
                                             <DragPanel direction="vertical">
                                                 <Button>Drag Panel</Button>
-                                                <Slider />
+                                                <Slider
+                                                    onChange={() => {
+                                                        console.log("b");
+                                                    }}
+                                                />
                                             </DragPanel>
                                         ]
                                     },
