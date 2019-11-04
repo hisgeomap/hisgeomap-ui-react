@@ -74,7 +74,6 @@ class DragPanel extends React.Component<DragPanelProps, any> {
         }
     };
 
-    shouldComponentUpdate = () => false;
     public render() {
         return (
             <div

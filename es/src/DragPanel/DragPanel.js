@@ -38,7 +38,6 @@ class DragPanel extends React.Component {
                 });
             }
         };
-        this.shouldComponentUpdate = () => false;
     }
     render() {
         return (React.createElement("div", { className: classNames("DragPanel", this.props.className), style: {

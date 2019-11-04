@@ -13,7 +13,6 @@ declare class DragPanel extends React.Component<DragPanelProps, any> {
     ref: React.RefObject<any>;
     DragCore: DragCore;
     componentDidMount: () => void;
-    shouldComponentUpdate: () => boolean;
     render(): JSX.Element;
 }
 declare class DragCore {
