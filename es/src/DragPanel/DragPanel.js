@@ -5,13 +5,16 @@ class DragPanel extends React.Component {
     constructor() {
         super(...arguments);
         this.ref = React.createRef();
-        this.DragCore = new DragCore(this.ref, this.props.direction, this.props.states, this.props.defaultState);
+        this.DragCore = new DragCore(this.ref, this.props.direction, this.props.states, this.props.defaultState, this.props.onStateChange);
+        this.componentDidUpdate = () => {
+            this.DragCore.setState(this.props.state);
+        };
         this.componentDidMount = () => {
             let handle = this.props.handle
                 ? document.querySelector(this.props.handle)
                 : this.ref.current;
             let trigger = this.props.trigger
-                ? document.querySelector(this.props.trigger)
+                ? document.querySelectorAll(this.props.trigger)
                 : null;
             if (handle) {
                 handle.addEventListener("dragstart", this.DragCore.onDragStart, true);
@@ -23,19 +26,25 @@ class DragPanel extends React.Component {
                 handle.setAttribute("draggable", true);
             }
             if (trigger) {
-                trigger.addEventListener("click", (e) => {
-                    if (this.props.onTrigger) {
-                        const stateIndex = this.props.onTrigger(this.DragCore.curPos.state, e);
-                        this.DragCore.curPos = {
-                            state: stateIndex !== undefined
-                                ? stateIndex
-                                : this.DragCore.curPos.state,
-                            displacement: [0, 0],
-                            pos: [0, 0]
-                        };
-                        this.DragCore.transform();
-                    }
-                });
+                for (let i = 0; i < trigger.length; i++) {
+                    trigger[i].addEventListener("click", (e) => {
+                        if (this.props.onTrigger) {
+                            const stateIndex = this.props.onTrigger(this.DragCore.curPos.state, e);
+                            const lastIndex = this.DragCore.curPos.state;
+                            this.DragCore.curPos = {
+                                state: stateIndex !== undefined
+                                    ? stateIndex
+                                    : this.DragCore.curPos.state,
+                                displacement: [0, 0],
+                                pos: [0, 0]
+                            };
+                            lastIndex !== this.DragCore.curPos.state &&
+                                this.props.onStateChange &&
+                                this.props.onStateChange(lastIndex, this.DragCore.curPos.state);
+                            this.DragCore.transform();
+                        }
+                    });
+                }
             }
         };
     }
@@ -47,7 +56,7 @@ class DragPanel extends React.Component {
     }
 }
 class DragCore {
-    constructor(ref, direction, states = [], defaultState = -1) {
+    constructor(ref, direction, states = [], defaultState = -1, onStateChange) {
         this.image = new Image();
         this.curPos = {
             state: -1,
@@ -66,6 +75,17 @@ class DragCore {
         this.scrollTop = 0;
         // adaptation for inside drag component
         this.dragging = false;
+        this.setState = (state) => {
+            if (state !== undefined) {
+                const lastState = this.curPos.state;
+                this.curPos.state = state;
+                this.curPos.displacement = [0, 0];
+                this.transform();
+                lastState !== this.curPos.state &&
+                    this.onStateChange &&
+                    this.onStateChange(lastState, this.curPos.state);
+            }
+        };
         this.onTouchStart = (event) => {
             event.screenX = event.changedTouches[0].screenX;
             event.screenY = event.changedTouches[0].screenY;
@@ -83,7 +103,6 @@ class DragCore {
             event && event.stopPropagation();
             const component = this.component.current;
             this.startPos = [event.screenX, event.screenY];
-            console.dir(event);
             if (event.dataTransfer) {
                 // Fix: Firefox draggable issue
                 event.dataTransfer.setData("Text", "");
@@ -143,10 +162,7 @@ class DragCore {
                     this.curPos.displacement[1] += this.curPos.pos[1];
                     this.curPos.pos = [0, 0];
                     if (this.states.length > 0) {
-                        // find the nearest states
-                        this.curPos.state = this.findNearestState();
-                        this.curPos.displacement = [0, 0];
-                        this.transform();
+                        this.setState(this.findNearestState());
                     }
                 }
                 this.dragging = false;
@@ -223,7 +239,6 @@ class DragCore {
             return -1;
         };
         this.trigger = () => {
-            // this.direction = !this.direction;
             this.dragging = true;
             const component = this.component.current;
             this.scrollTop = component ? component.scrollTop : null;
@@ -235,9 +250,10 @@ class DragCore {
         this.translatedStates = states.map(state => {
             return state.map(css => this.translateCSS(css));
         });
-        this.curPos.state = defaultState;
+        this.onStateChange = onStateChange;
         this.image.src =
             "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
+        this.setState(defaultState);
     }
 }
 DragCore.SIZE = 3;

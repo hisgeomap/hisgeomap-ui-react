@@ -4,11 +4,13 @@ import classNames from "classnames";
 interface DragPanelProps {
     className?: string;
     defaultState?: number;
+    state?: number;
     states?: string[][];
     direction: "horizontal" | "vertical" | "both";
     handle?: string;
     trigger?: string;
     onTrigger?: Function;
+    onStateChange?: Function;
 }
 class DragPanel extends React.Component<DragPanelProps, any> {
     ref: React.RefObject<any> = React.createRef();
@@ -16,15 +18,20 @@ class DragPanel extends React.Component<DragPanelProps, any> {
         this.ref,
         this.props.direction,
         this.props.states,
-        this.props.defaultState
+        this.props.defaultState,
+        this.props.onStateChange
     );
+
+    componentDidUpdate = () => {
+        this.DragCore.setState(this.props.state);
+    };
     componentDidMount = () => {
         let handle = this.props.handle
             ? document.querySelector(this.props.handle)
             : this.ref.current;
 
         let trigger = this.props.trigger
-            ? document.querySelector(this.props.trigger)
+            ? document.querySelectorAll(this.props.trigger)
             : null;
 
         if (handle) {
@@ -54,23 +61,33 @@ class DragPanel extends React.Component<DragPanelProps, any> {
         }
 
         if (trigger) {
-            trigger.addEventListener("click", (e: any) => {
-                if (this.props.onTrigger) {
-                    const stateIndex = this.props.onTrigger(
-                        this.DragCore.curPos.state,
-                        e
-                    );
-                    this.DragCore.curPos = {
-                        state:
-                            stateIndex !== undefined
-                                ? stateIndex
-                                : this.DragCore.curPos.state,
-                        displacement: [0, 0],
-                        pos: [0, 0]
-                    };
-                    this.DragCore.transform();
-                }
-            });
+            for (let i = 0; i < trigger.length; i++) {
+                trigger[i].addEventListener("click", (e: any) => {
+                    if (this.props.onTrigger) {
+                        const stateIndex = this.props.onTrigger(
+                            this.DragCore.curPos.state,
+                            e
+                        );
+                        const lastIndex = this.DragCore.curPos.state;
+                        this.DragCore.curPos = {
+                            state:
+                                stateIndex !== undefined
+                                    ? stateIndex
+                                    : this.DragCore.curPos.state,
+                            displacement: [0, 0],
+                            pos: [0, 0]
+                        };
+
+                        lastIndex !== this.DragCore.curPos.state &&
+                            this.props.onStateChange &&
+                            this.props.onStateChange(
+                                lastIndex,
+                                this.DragCore.curPos.state
+                            );
+                        this.DragCore.transform();
+                    }
+                });
+            }
         }
     };
 
@@ -106,7 +123,7 @@ class DragCore {
     };
     transition: string = "0.3s transform ease-in-out";
     direction: "horizontal" | "vertical" | "both";
-    translatedStates: ({ percent: boolean; value: number })[][] = [];
+    translatedStates: { percent: boolean; value: number }[][] = [];
     states: string[][];
 
     // dragging
@@ -126,7 +143,8 @@ class DragCore {
         ref: React.RefObject<any>,
         direction: "horizontal" | "vertical" | "both",
         states: string[][] = [],
-        defaultState: number = -1
+        defaultState: number = -1,
+        onStateChange?: Function
     ) {
         this.component = ref;
         this.direction = direction;
@@ -134,12 +152,25 @@ class DragCore {
         this.translatedStates = states.map(state => {
             return state.map(css => this.translateCSS(css));
         });
-
-        this.curPos.state = defaultState;
+        this.onStateChange = onStateChange;
         this.image.src =
             "data:image/gif;base64,R0lGODlhAQABAIAAAAUEBAAAACwAAAAAAQABAAACAkQBADs=";
+        this.setState(defaultState);
     }
 
+    onStateChange?: Function;
+
+    setState = (state?: number) => {
+        if (state !== undefined) {
+            const lastState = this.curPos.state;
+            this.curPos.state = state;
+            this.curPos.displacement = [0, 0];
+            this.transform();
+            lastState !== this.curPos.state &&
+                this.onStateChange &&
+                this.onStateChange(lastState, this.curPos.state);
+        }
+    };
     onTouchStart = (event: any) => {
         event.screenX = event.changedTouches[0].screenX;
         event.screenY = event.changedTouches[0].screenY;
@@ -160,7 +191,6 @@ class DragCore {
         event && event.stopPropagation();
         const component = this.component.current;
         this.startPos = [event.screenX, event.screenY];
-        console.dir(event);
 
         if (event.dataTransfer) {
             // Fix: Firefox draggable issue
@@ -225,10 +255,7 @@ class DragCore {
                 this.curPos.pos = [0, 0];
 
                 if (this.states.length > 0) {
-                    // find the nearest states
-                    this.curPos.state = this.findNearestState();
-                    this.curPos.displacement = [0, 0];
-                    this.transform();
+                    this.setState(this.findNearestState());
                 }
             }
 
@@ -319,7 +346,6 @@ class DragCore {
     };
 
     trigger = () => {
-        // this.direction = !this.direction;
         this.dragging = true;
         const component = this.component.current;
         this.scrollTop = component ? component.scrollTop : null;

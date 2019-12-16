@@ -37,6 +37,8 @@ const App: React.FC = () => {
             window.location.pathname.lastIndexOf("/") + 1
         )
     );
+
+    const [state, setState] = useState(2);
     return (
         <div>
             <Router basename={"/" + packageJSON.name}>
@@ -353,6 +355,59 @@ const App: React.FC = () => {
                                                 >
                                                     <Button className="DragPanel-demo-trigger2">
                                                         Trigger
+                                                    </Button>
+                                                </DragPanel>
+                                            </div>
+                                        ]
+                                    },
+                                    {
+                                        title: "DragPanel - State Change",
+                                        component: [
+                                            <div>
+                                                <DragPanel
+                                                    direction="horizontal"
+                                                    className="DragPanel-demo-backgound"
+                                                    states={[
+                                                        ["0%", "0"],
+                                                        ["20%", "0%"],
+                                                        ["40%", "0%"]
+                                                    ]}
+                                                    trigger=".DragPanel-demo-trigger3"
+                                                    onTrigger={() => 1}
+                                                    state={state}
+                                                    onStateChange={(
+                                                        prev: any,
+                                                        cur: any
+                                                    ) => setState(cur)}
+                                                    defaultState={0}
+                                                >
+                                                    <Button className="DragPanel-demo-trigger3">
+                                                        Trigger
+                                                    </Button>
+                                                </DragPanel>
+                                                <DragPanel
+                                                    direction="vertical"
+                                                    states={[
+                                                        ["0", "0"],
+                                                        ["0", "40%"],
+                                                        ["0%", "90%"]
+                                                    ]}
+                                                    state={state}
+                                                    onStateChange={(
+                                                        prev: any,
+                                                        cur: any
+                                                    ) => {
+                                                        console.log(prev, cur);
+                                                        setState(cur);
+                                                    }}
+                                                    defaultState={2}
+                                                >
+                                                    <Button
+                                                        onClick={() =>
+                                                            setState(1)
+                                                        }
+                                                    >
+                                                        Change to State 1
                                                     </Button>
                                                 </DragPanel>
                                             </div>

@@ -13,7 +13,7 @@
     "scripts": {
         "start": "node scripts/start.js",
         "start:demo": "DEMO=true node scripts/start.js",
-        "build": "node scripts/build.js",
+        "build": "yarn run build:es;yarn run build:lib; yarn run build:demo",
         "build:dist": "shx rm -r dist;node scripts/build.js; shx mv build dist",
         "build:demo": "shx rm -r demo;DEMO=true node scripts/build.js; shx mv build demo",
         "build:es": "shx rm -r es; tsc -p tsconfig.es.json --outDir es; yarn run copyfiles:es",

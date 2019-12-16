@@ -3,15 +3,18 @@ import "./DragPanel.css";
 interface DragPanelProps {
     className?: string;
     defaultState?: number;
+    state?: number;
     states?: string[][];
     direction: "horizontal" | "vertical" | "both";
     handle?: string;
     trigger?: string;
     onTrigger?: Function;
+    onStateChange?: Function;
 }
 declare class DragPanel extends React.Component<DragPanelProps, any> {
     ref: React.RefObject<any>;
     DragCore: DragCore;
+    componentDidUpdate: () => void;
     componentDidMount: () => void;
     render(): JSX.Element;
 }
@@ -26,10 +29,10 @@ declare class DragCore {
     };
     transition: string;
     direction: "horizontal" | "vertical" | "both";
-    translatedStates: ({
+    translatedStates: {
         percent: boolean;
         value: number;
-    })[][];
+    }[][];
     states: string[][];
     pos: number[][];
     startPos: number[];
@@ -38,7 +41,9 @@ declare class DragCore {
     isPostiveDir: boolean;
     scrollTop: number;
     dragging: boolean;
-    constructor(ref: React.RefObject<any>, direction: "horizontal" | "vertical" | "both", states?: string[][], defaultState?: number);
+    constructor(ref: React.RefObject<any>, direction: "horizontal" | "vertical" | "both", states?: string[][], defaultState?: number, onStateChange?: Function);
+    onStateChange?: Function;
+    setState: (state?: number | undefined) => void;
     onTouchStart: (event: any) => void;
     onTouchMove: (event: any) => void;
     onTouchStop: (event: any) => void;
