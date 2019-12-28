@@ -1,0 +1,91 @@
+.EditableText {
+    position: relative;
+    overflow: hidden;
+    display: inline;
+}
+
+.fadeIn {
+    animation: fadeIn forwards 0.3s;
+}
+
+.fadeOut {
+    animation: fadeOut forwards 0.3s;
+}
+
+/* .Editable-shiny {
+    position: absolute;
+    background: white;
+    height: 100%;
+    width: 5px;
+    top: 0;
+    left: 0;
+    opacity: 0.8;
+    box-shadow: 0 0 0 1px white;
+    transform: rotate(13deg);
+    animation: shiny 10s infinite;
+}
+
+@keyframes shiny {
+    0% {
+        left: -50%;
+    }
+
+    30% {
+        left: 150%;
+    }
+
+    100% {
+        left: 150%;
+    }
+} */
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        /* display: none; */
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+    to {
+        opacity: 0;
+        /* display: none; */
+    }
+}
+
+.EditableText-text {
+    display: inline-block;
+    min-width: 30px;
+}
+.EditableText-editable {
+    min-width: 30px;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    top: 50%;
+    left: 0;
+    line-height: 1;
+    transform: translate(0, -50%);
+    transition: 0.3s opacity ease-in-out;
+    padding: 0 !important;
+}
+
+/* .EditableText-editable .ant-input {
+    margin: 0 !important;
+}
+
+.EditableText-editable-unfocus {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.EditableText-editable-focus {
+    opacity: 1;
+    pointer-events: all;
+} */

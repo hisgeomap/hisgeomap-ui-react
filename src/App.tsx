@@ -2,7 +2,14 @@ import React, { useState, RefObject } from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Search, SidePanel, Crown, SideNotification, DragPanel } from ".";
+import {
+    Search,
+    SidePanel,
+    Crown,
+    SideNotification,
+    DragPanel,
+    EditableText
+} from ".";
 import { Menu, Tooltip } from "antd";
 import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
@@ -28,7 +35,8 @@ const links = [
     "SidePanel",
     "Crown",
     "SideNotification",
-    "DragPanel"
+    "DragPanel",
+    "EditableText"
 ];
 const crownRef: RefObject<any> = React.createRef();
 const App: React.FC = () => {
@@ -411,6 +419,24 @@ const App: React.FC = () => {
                                                     </Button>
                                                 </DragPanel>
                                             </div>
+                                        ]
+                                    }
+                                ]}
+                            />
+                        </Route>
+                        <Route path="/EditableText">
+                            <DemoPage
+                                className="normal"
+                                name="EditableText"
+                                components={[
+                                    {
+                                        title: "Basic EditableText",
+                                        component: [
+                                            <h1>
+                                                Please{" "}
+                                                <EditableText placeholder="Edit Here"></EditableText>
+                                                . Thank you.
+                                            </h1>
                                         ]
                                     }
                                 ]}
