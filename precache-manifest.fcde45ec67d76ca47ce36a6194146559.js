@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "36b89d6ee998ca4323dfae1ea7cdddde",
+    "revision": "c6171a0b181344bed4a7e124af524533",
     "url": "/hisgeomap-ui-react/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hisgeomap-ui-react/static/css/2.653462cc.chunk.css"
   },
   {
-    "revision": "b19078dcf48a8bba7f60",
+    "revision": "d8b8ab4541e2b157a834",
     "url": "/hisgeomap-ui-react/static/css/main.fd5f321b.chunk.css"
   },
   {
@@ -20,7 +20,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/hisgeomap-ui-react/static/js/hisgeomap-ui-react.js"
   },
   {
-    "revision": "b19078dcf48a8bba7f60",
-    "url": "/hisgeomap-ui-react/static/js/main.7f484c29.chunk.js"
+    "revision": "d8b8ab4541e2b157a834",
+    "url": "/hisgeomap-ui-react/static/js/main.0befdce4.chunk.js"
   }
 ]);
