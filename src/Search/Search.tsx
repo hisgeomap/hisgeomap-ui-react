@@ -59,6 +59,7 @@ class Search extends React.Component<SearchProps, SearchState> {
         history: this.dataManager.data,
         value: this.props.defaultValue ? this.props.defaultValue : ""
     };
+    ref: React.RefObject<any> = React.createRef();
 
     onCloseHandle = (value: string) => {
         return (e: any) => {
@@ -91,11 +92,16 @@ class Search extends React.Component<SearchProps, SearchState> {
         this.props.onChange && this.props.onChange(value);
     };
 
+    focus = () => {
+        this.ref.current.focus();
+    };
+
     public render() {
         return (
             <div className={classNames("Search", this.props.className)}>
                 <AutoComplete
                     {...this.props}
+                    ref={this.ref}
                     onSelect={this.onSelect}
                     value={
                         this.props.value ? this.props.value : this.state.value

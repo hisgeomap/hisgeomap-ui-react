@@ -1,4 +1,4 @@
-import React, { useState, RefObject } from "react";
+import React, { useState, RefObject, useRef } from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -47,6 +47,7 @@ const App: React.FC = () => {
     );
 
     const [state, setState] = useState(2);
+    const ref: React.RefObject<Search> = useRef(null);
     return (
         <div>
             <Router basename={"/" + packageJSON.name}>
@@ -141,6 +142,30 @@ const App: React.FC = () => {
                                                     data.Search.dataSource
                                                 }
                                             />
+                                        ]
+                                    },
+                                    {
+                                        title: "Focus",
+                                        component: [
+                                            <div>
+                                                <Search
+                                                    type="line"
+                                                    defaultValue="dasf"
+                                                    value="dasf"
+                                                    ref={ref}
+                                                    dataSource={
+                                                        data.Search.dataSource
+                                                    }
+                                                />
+                                                <Button
+                                                    onClick={() =>
+                                                        ref.current &&
+                                                        ref.current.focus()
+                                                    }
+                                                >
+                                                    Focus
+                                                </Button>
+                                            </div>
                                         ]
                                     }
                                 ]}

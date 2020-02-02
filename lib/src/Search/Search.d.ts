@@ -26,10 +26,12 @@ declare class Search extends React.Component<SearchProps, SearchState> {
         history: string[];
         value: string;
     };
+    ref: React.RefObject<any>;
     onCloseHandle: (value: string) => (e: any) => void;
     onSelect: (value: any, options: any, fromHistory?: boolean | undefined) => void;
     onClickHandle: (value: string) => () => void;
     onChange: (value: any) => void;
+    focus: () => void;
     render(): JSX.Element;
 }
 export default Search;

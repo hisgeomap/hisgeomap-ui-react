@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
@@ -32,6 +32,7 @@ const crownRef = React.createRef();
 const App = () => {
     const [title, setTitle] = useState(window.location.pathname.substr(window.location.pathname.lastIndexOf("/") + 1));
     const [state, setState] = useState(2);
+    const ref = useRef(null);
     return (React.createElement("div", null,
         React.createElement(Router, { basename: "/" + packageJSON.name },
             React.createElement(SidePanel, { offset: "-250px", className: "navigation", trigger: ".menu-btn" },
@@ -64,6 +65,15 @@ const App = () => {
                                     component: [
                                         React.createElement(Search, { type: "line", defaultValue: "dasf", value: "dasf", dataSource: data.Search.dataSource }),
                                         React.createElement(Search, { type: "line", defaultValue: "dasf", dataSource: data.Search.dataSource })
+                                    ]
+                                },
+                                {
+                                    title: "Focus",
+                                    component: [
+                                        React.createElement("div", null,
+                                            React.createElement(Search, { type: "line", defaultValue: "dasf", value: "dasf", ref: ref, dataSource: data.Search.dataSource }),
+                                            React.createElement(Button, { onClick: () => ref.current &&
+                                                    ref.current.focus() }, "Focus"))
                                     ]
                                 }
                             ] })),
