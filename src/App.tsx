@@ -122,6 +122,26 @@ const App: React.FC = () => {
                                                 }
                                             />
                                         )
+                                    },
+                                    {
+                                        title: "Default Value and Value",
+                                        component: [
+                                            <Search
+                                                type="line"
+                                                defaultValue="dasf"
+                                                value="dasf"
+                                                dataSource={
+                                                    data.Search.dataSource
+                                                }
+                                            />,
+                                            <Search
+                                                type="line"
+                                                defaultValue="dasf"
+                                                dataSource={
+                                                    data.Search.dataSource
+                                                }
+                                            />
+                                        ]
                                     }
                                 ]}
                             />
@@ -435,6 +455,19 @@ const App: React.FC = () => {
                                             <h1>
                                                 Please{" "}
                                                 <EditableText placeholder="Edit Here"></EditableText>
+                                                . Thank you.
+                                            </h1>
+                                        ]
+                                    },
+                                    {
+                                        title: "Number EditableText",
+                                        component: [
+                                            <h1>
+                                                Please{" "}
+                                                <EditableText
+                                                    type="Number"
+                                                    placeholder={1}
+                                                ></EditableText>
                                                 . Thank you.
                                             </h1>
                                         ]

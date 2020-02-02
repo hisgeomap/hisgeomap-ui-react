@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import ReactDOM from "react-dom";
 import "./App.css";
 import { BrowserRouter as Router, Switch, Route, Link } from "react-router-dom";
-import { Search, SidePanel, Crown, SideNotification, DragPanel } from ".";
+import { Search, SidePanel, Crown, SideNotification, DragPanel, EditableText } from ".";
 import { Menu, Tooltip } from "antd";
 import { Button, Slider } from "antd";
 import DemoPage from "./DemoPage";
@@ -25,7 +25,8 @@ const links = [
     "SidePanel",
     "Crown",
     "SideNotification",
-    "DragPanel"
+    "DragPanel",
+    "EditableText"
 ];
 const crownRef = React.createRef();
 const App = () => {
@@ -57,6 +58,13 @@ const App = () => {
                                 {
                                     title: "Search History",
                                     component: (React.createElement(Search, { type: "line", history: "hisgeomap-example", render: (value) => `(${value})`, dataSource: data.Search.dataSource }))
+                                },
+                                {
+                                    title: "Default Value and Value",
+                                    component: [
+                                        React.createElement(Search, { type: "line", defaultValue: "dasf", value: "dasf", dataSource: data.Search.dataSource }),
+                                        React.createElement(Search, { type: "line", defaultValue: "dasf", dataSource: data.Search.dataSource })
+                                    ]
                                 }
                             ] })),
                     React.createElement(Route, { path: "/SidePanel" },
@@ -193,6 +201,29 @@ const App = () => {
                                                     setState(cur);
                                                 }, defaultState: 2 },
                                                 React.createElement(Button, { onClick: () => setState(1) }, "Change to State 1")))
+                                    ]
+                                }
+                            ] })),
+                    React.createElement(Route, { path: "/EditableText" },
+                        React.createElement(DemoPage, { className: "normal", name: "EditableText", components: [
+                                {
+                                    title: "Basic EditableText",
+                                    component: [
+                                        React.createElement("h1", null,
+                                            "Please",
+                                            " ",
+                                            React.createElement(EditableText, { placeholder: "Edit Here" }),
+                                            ". Thank you.")
+                                    ]
+                                },
+                                {
+                                    title: "Number EditableText",
+                                    component: [
+                                        React.createElement("h1", null,
+                                            "Please",
+                                            " ",
+                                            React.createElement(EditableText, { type: "Number", placeholder: 1 }),
+                                            ". Thank you.")
                                     ]
                                 }
                             ] })))))));

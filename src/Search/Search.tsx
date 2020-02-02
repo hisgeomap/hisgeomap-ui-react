@@ -9,6 +9,7 @@ export interface SearchProps extends AutoCompleteProps {
     history?: string;
     render?: Function;
     onClose?: Function;
+    defaultValue?: string;
 }
 
 interface SearchState {
@@ -56,7 +57,7 @@ class Search extends React.Component<SearchProps, SearchState> {
     dataManager = new SearchHistoryLS(this.props.history);
     state = {
         history: this.dataManager.data,
-        value: ""
+        value: this.props.defaultValue ? this.props.defaultValue : ""
     };
 
     onCloseHandle = (value: string) => {
@@ -96,7 +97,9 @@ class Search extends React.Component<SearchProps, SearchState> {
                 <AutoComplete
                     {...this.props}
                     onSelect={this.onSelect}
-                    value={this.state.value}
+                    value={
+                        this.props.value ? this.props.value : this.state.value
+                    }
                     onChange={this.onChange}
                     className={classNames("SearchInput", {
                         SearchLine: this.props.type === "line"

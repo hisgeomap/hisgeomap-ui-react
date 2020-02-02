@@ -30,7 +30,13 @@ class EditableText extends React.Component<EditableTextProps, any> {
         };
 
         const onChange = (e: any) => {
-            this.setState({ ...this.state, value: e.target.value });
+            if (this.props.type === "Number") {
+                if (!isNaN(e)) {
+                    this.setState({ ...this.state, value: e });
+                }
+            } else {
+                this.setState({ ...this.state, value: e.target.value });
+            }
         };
 
         const attrs = {

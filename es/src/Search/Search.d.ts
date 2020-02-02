@@ -6,6 +6,7 @@ export interface SearchProps extends AutoCompleteProps {
     history?: string;
     render?: Function;
     onClose?: Function;
+    defaultValue?: string;
 }
 interface SearchState {
     history: string[];
