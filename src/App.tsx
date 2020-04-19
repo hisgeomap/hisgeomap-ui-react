@@ -48,6 +48,13 @@ const App: React.FC = () => {
 
     const [state, setState] = useState(2);
     const ref: React.RefObject<Search> = useRef(null);
+
+    const [dragPanelMode, setDragPanelMode]: any = useState({
+        states: [["0%", "0"], ["50%", "0%"]],
+        state: 0,
+        defaultState: 0,
+        direction: "horizontal"
+    });
     return (
         <div>
             <Router basename={"/" + packageJSON.name}>
@@ -456,6 +463,41 @@ const App: React.FC = () => {
                                                         }
                                                     >
                                                         Change to State 1
+                                                    </Button>
+                                                </DragPanel>
+                                            </div>
+                                        ]
+                                    },
+                                    {
+                                        title: "DragPanel - Update on Props",
+                                        component: [
+                                            <div>
+                                                <DragPanel
+                                                    className="DragPanel-demo-backgound"
+                                                    {...dragPanelMode}
+                                                >
+                                                    <Button
+                                                        onClick={() => {
+                                                            setDragPanelMode({
+                                                                state: 0,
+                                                                states: [
+                                                                    ["0", "0"],
+                                                                    [
+                                                                        "0",
+                                                                        "40%"
+                                                                    ],
+                                                                    [
+                                                                        "0%",
+                                                                        "90%"
+                                                                    ]
+                                                                ],
+                                                                direction:
+                                                                    "vertical",
+                                                                defaultState: 1
+                                                            });
+                                                        }}
+                                                    >
+                                                        Switch Mode
                                                     </Button>
                                                 </DragPanel>
                                             </div>

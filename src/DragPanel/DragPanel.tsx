@@ -21,85 +21,135 @@ class DragPanel extends React.Component<DragPanelProps, any> {
         this.props.defaultState,
         this.props.onStateChange
     );
+    handle: HTMLElement | null = null;
+
+    trigger: NodeList | null = null;
 
     componentDidUpdate = () => {
-        this.DragCore.setState(this.props.state);
+        this.unbindEvent();
+        this.DragCore = new DragCore(
+            this.ref,
+            this.props.direction,
+            this.props.states,
+            this.props.defaultState,
+            this.props.onStateChange
+        );
+
+        this.bindEvent();
     };
-    componentDidMount = () => {
-        let handle = this.props.handle
+
+    unbindEvent = () => {
+        if (this.handle) {
+            this.handle.removeEventListener(
+                "dragstart",
+                this.DragCore.onDragStart
+            );
+            this.handle.removeEventListener("drag", this.DragCore.onDrag);
+            this.handle.removeEventListener(
+                "dragend",
+                this.DragCore.onDragStop
+            );
+            this.handle.removeEventListener(
+                "dragover",
+                this.DragCore.onDragOver
+            );
+            this.handle.removeEventListener(
+                "touchstart",
+                this.DragCore.onTouchStart
+            );
+            this.handle.removeEventListener(
+                "touchmove",
+                this.DragCore.onTouchMove
+            );
+            this.handle.removeEventListener(
+                "touchend",
+                this.DragCore.onTouchStop
+            );
+        }
+
+        if (this.trigger) {
+            for (let i = 0; i < this.trigger.length; i++) {
+                this.trigger[i].removeEventListener("click", this.triggerFunc);
+            }
+        }
+    };
+
+    bindEvent = () => {
+        this.handle = this.props.handle
             ? document.querySelector(this.props.handle)
             : this.ref.current;
-
-        let trigger = this.props.trigger
+        this.trigger = this.props.trigger
             ? document.querySelectorAll(this.props.trigger)
             : null;
-
-        if (handle) {
+        if (this.handle) {
             // Fix: Chrome Passive Event Requirement
             const passiveOption = { passive: true };
-            handle.addEventListener(
+            this.handle.addEventListener(
                 "dragstart",
                 this.DragCore.onDragStart,
                 passiveOption
             );
-            handle.addEventListener(
+            this.handle.addEventListener(
                 "drag",
                 this.DragCore.onDrag,
                 passiveOption
             );
-            handle.addEventListener(
+            this.handle.addEventListener(
                 "dragend",
                 this.DragCore.onDragStop,
                 passiveOption
             );
-            handle.addEventListener("dragover", this.DragCore.onDragOver);
-            handle.addEventListener(
+            this.handle.addEventListener("dragover", this.DragCore.onDragOver);
+            this.handle.addEventListener(
                 "touchstart",
                 this.DragCore.onTouchStart,
                 passiveOption
             );
-            handle.addEventListener(
+            this.handle.addEventListener(
                 "touchmove",
                 this.DragCore.onTouchMove,
                 passiveOption
             );
-            handle.addEventListener(
+            this.handle.addEventListener(
                 "touchend",
                 this.DragCore.onTouchStop,
                 passiveOption
             );
-            handle.setAttribute("draggable", true);
+            this.handle.setAttribute("draggable", "true");
         }
 
-        if (trigger) {
-            for (let i = 0; i < trigger.length; i++) {
-                trigger[i].addEventListener("click", (e: any) => {
-                    if (this.props.onTrigger) {
-                        const stateIndex = this.props.onTrigger(
-                            this.DragCore.curPos.state,
-                            e
-                        );
-                        const lastIndex = this.DragCore.curPos.state;
-                        this.DragCore.curPos = {
-                            state:
-                                stateIndex !== undefined
-                                    ? stateIndex
-                                    : this.DragCore.curPos.state,
-                            displacement: [0, 0],
-                            pos: [0, 0]
-                        };
-
-                        lastIndex !== this.DragCore.curPos.state &&
-                            this.props.onStateChange &&
-                            this.props.onStateChange(
-                                lastIndex,
-                                this.DragCore.curPos.state
-                            );
-                        this.DragCore.transform();
-                    }
-                });
+        if (this.trigger) {
+            for (let i = 0; i < this.trigger.length; i++) {
+                this.trigger[i].addEventListener("click", this.triggerFunc);
             }
         }
+    };
+
+    triggerFunc = (e: any) => {
+        if (this.props.onTrigger) {
+            const stateIndex = this.props.onTrigger(
+                this.DragCore.curPos.state,
+                e
+            );
+            const lastIndex = this.DragCore.curPos.state;
+            this.DragCore.curPos = {
+                state:
+                    stateIndex !== undefined
+                        ? stateIndex
+                        : this.DragCore.curPos.state,
+                displacement: [0, 0],
+                pos: [0, 0]
+            };
+
+            lastIndex !== this.DragCore.curPos.state &&
+                this.props.onStateChange &&
+                this.props.onStateChange(lastIndex, this.DragCore.curPos.state);
+            this.DragCore.transform();
+        }
+    };
+
+    componentDidMount = () => {
+        this.bindEvent();
     };
 
     public render() {

@@ -33,6 +33,12 @@ const App = () => {
     const [title, setTitle] = useState(window.location.pathname.substr(window.location.pathname.lastIndexOf("/") + 1));
     const [state, setState] = useState(2);
     const ref = useRef(null);
+    const [dragPanelMode, setDragPanelMode] = useState({
+        states: [["0%", "0"], ["50%", "0%"]],
+        state: 0,
+        defaultState: 0,
+        direction: "horizontal"
+    });
     return (React.createElement("div", null,
         React.createElement(Router, { basename: "/" + packageJSON.name },
             React.createElement(SidePanel, { offset: "-250px", className: "navigation", trigger: ".menu-btn" },
@@ -208,6 +214,31 @@ const App = () => {
                                                     setState(cur);
                                                 }, defaultState: 2 },
                                                 React.createElement(Button, { onClick: () => setState(1) }, "Change to State 1")))
+                                    ]
+                                },
+                                {
+                                    title: "DragPanel - Update on Props",
+                                    component: [
+                                        React.createElement("div", null,
+                                            React.createElement(DragPanel, Object.assign({ className: "DragPanel-demo-backgound" }, dragPanelMode),
+                                                React.createElement(Button, { onClick: () => {
+                                                        setDragPanelMode({
+                                                            state: 0,
+                                                            states: [
+                                                                ["0", "0"],
+                                                                [
+                                                                    "0",
+                                                                    "40%"
+                                                                ],
+                                                                [
+                                                                    "0%",
+                                                                    "90%"
+                                                                ]
+                                                            ],
+                                                            direction: "vertical",
+                                                            defaultState: 1
+                                                        });
+                                                    } }, "Switch Mode")))
                                     ]
                                 }
                             ] })),

@@ -14,7 +14,12 @@ interface DragPanelProps {
 declare class DragPanel extends React.Component<DragPanelProps, any> {
     ref: React.RefObject<any>;
     DragCore: DragCore;
+    handle: HTMLElement | null;
+    trigger: NodeList | null;
     componentDidUpdate: () => void;
+    unbindEvent: () => void;
+    bindEvent: () => void;
+    triggerFunc: (e: any) => void;
     componentDidMount: () => void;
     render(): JSX.Element;
 }

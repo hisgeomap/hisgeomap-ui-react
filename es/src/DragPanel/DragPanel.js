@@ -6,49 +6,73 @@ class DragPanel extends React.Component {
         super(...arguments);
         this.ref = React.createRef();
         this.DragCore = new DragCore(this.ref, this.props.direction, this.props.states, this.props.defaultState, this.props.onStateChange);
+        this.handle = null;
+        this.trigger = null;
         this.componentDidUpdate = () => {
-            this.DragCore.setState(this.props.state);
+            this.unbindEvent();
+            this.DragCore = new DragCore(this.ref, this.props.direction, this.props.states, this.props.defaultState, this.props.onStateChange);
+            this.bindEvent();
         };
-        this.componentDidMount = () => {
-            let handle = this.props.handle
-                ? document.querySelector(this.props.handle)
-                : this.ref.current;
-            let trigger = this.props.trigger
-                ? document.querySelectorAll(this.props.trigger)
-                : null;
-            if (handle) {
-                // Fix: Chrome Passive Event Requirement
-                const passiveOption = { passive: true };
-                handle.addEventListener("dragstart", this.DragCore.onDragStart, passiveOption);
-                handle.addEventListener("drag", this.DragCore.onDrag, passiveOption);
-                handle.addEventListener("dragend", this.DragCore.onDragStop, passiveOption);
-                handle.addEventListener("dragover", this.DragCore.onDragOver);
-                handle.addEventListener("touchstart", this.DragCore.onTouchStart, passiveOption);
-                handle.addEventListener("touchmove", this.DragCore.onTouchMove, passiveOption);
-                handle.addEventListener("touchend", this.DragCore.onTouchStop, passiveOption);
-                handle.setAttribute("draggable", true);
+        this.unbindEvent = () => {
+            if (this.handle) {
+                this.handle.removeEventListener("dragstart", this.DragCore.onDragStart);
+                this.handle.removeEventListener("drag", this.DragCore.onDrag);
+                this.handle.removeEventListener("dragend", this.DragCore.onDragStop);
+                this.handle.removeEventListener("dragover", this.DragCore.onDragOver);
+                this.handle.removeEventListener("touchstart", this.DragCore.onTouchStart);
+                this.handle.removeEventListener("touchmove", this.DragCore.onTouchMove);
+                this.handle.removeEventListener("touchend", this.DragCore.onTouchStop);
             }
-            if (trigger) {
-                for (let i = 0; i < trigger.length; i++) {
-                    trigger[i].addEventListener("click", (e) => {
-                        if (this.props.onTrigger) {
-                            const stateIndex = this.props.onTrigger(this.DragCore.curPos.state, e);
-                            const lastIndex = this.DragCore.curPos.state;
-                            this.DragCore.curPos = {
-                                state: stateIndex !== undefined
-                                    ? stateIndex
-                                    : this.DragCore.curPos.state,
-                                displacement: [0, 0],
-                                pos: [0, 0]
-                            };
-                            lastIndex !== this.DragCore.curPos.state &&
-                                this.props.onStateChange &&
-                                this.props.onStateChange(lastIndex, this.DragCore.curPos.state);
-                            this.DragCore.transform();
-                        }
-                    });
+            if (this.trigger) {
+                for (let i = 0; i < this.trigger.length; i++) {
+                    this.trigger[i].removeEventListener("click", this.triggerFunc);
                 }
             }
+        };
+        this.bindEvent = () => {
+            this.handle = this.props.handle
+                ? document.querySelector(this.props.handle)
+                : this.ref.current;
+            this.trigger = this.props.trigger
+                ? document.querySelectorAll(this.props.trigger)
+                : null;
+            if (this.handle) {
+                // Fix: Chrome Passive Event Requirement
+                const passiveOption = { passive: true };
+                this.handle.addEventListener("dragstart", this.DragCore.onDragStart, passiveOption);
+                this.handle.addEventListener("drag", this.DragCore.onDrag, passiveOption);
+                this.handle.addEventListener("dragend", this.DragCore.onDragStop, passiveOption);
+                this.handle.addEventListener("dragover", this.DragCore.onDragOver);
+                this.handle.addEventListener("touchstart", this.DragCore.onTouchStart, passiveOption);
+                this.handle.addEventListener("touchmove", this.DragCore.onTouchMove, passiveOption);
+                this.handle.addEventListener("touchend", this.DragCore.onTouchStop, passiveOption);
+                this.handle.setAttribute("draggable", "true");
+            }
+            if (this.trigger) {
+                for (let i = 0; i < this.trigger.length; i++) {
+                    this.trigger[i].addEventListener("click", this.triggerFunc);
+                }
+            }
+        };
+        this.triggerFunc = (e) => {
+            if (this.props.onTrigger) {
+                const stateIndex = this.props.onTrigger(this.DragCore.curPos.state, e);
+                const lastIndex = this.DragCore.curPos.state;
+                this.DragCore.curPos = {
+                    state: stateIndex !== undefined
+                        ? stateIndex
+                        : this.DragCore.curPos.state,
+                    displacement: [0, 0],
+                    pos: [0, 0]
+                };
+                lastIndex !== this.DragCore.curPos.state &&
+                    this.props.onStateChange &&
+                    this.props.onStateChange(lastIndex, this.DragCore.curPos.state);
+                this.DragCore.transform();
+            }
+        };
+        this.componentDidMount = () => {
+            this.bindEvent();
         };
     }
     render() {
