@@ -50,6 +50,7 @@ declare class DragCore {
     onDragStart: (event: any) => void;
     onDrag: (event: any) => void;
     onDragStop: (event: any) => void;
+    onDragOver: (event: any) => void;
     transform: () => void;
     getTransform: () => string;
     translateCSS: (css: string) => {

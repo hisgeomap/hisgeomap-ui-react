@@ -129,9 +129,7 @@ const App = () => {
                                     component: [
                                         React.createElement(DragPanel, { direction: "vertical" },
                                             React.createElement(Button, null, "Drag Panel"),
-                                            React.createElement(Slider, { onChange: () => {
-                                                    console.log("b");
-                                                } }))
+                                            React.createElement(Slider, { onChange: () => { } }))
                                     ]
                                 },
                                 {
@@ -207,7 +205,6 @@ const App = () => {
                                                     ["0", "40%"],
                                                     ["0%", "90%"]
                                                 ], state: state, onStateChange: (prev, cur) => {
-                                                    console.log(prev, cur);
                                                     setState(cur);
                                                 }, defaultState: 2 },
                                                 React.createElement(Button, { onClick: () => setState(1) }, "Change to State 1")))

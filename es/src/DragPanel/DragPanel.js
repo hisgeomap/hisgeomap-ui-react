@@ -17,12 +17,15 @@ class DragPanel extends React.Component {
                 ? document.querySelectorAll(this.props.trigger)
                 : null;
             if (handle) {
-                handle.addEventListener("dragstart", this.DragCore.onDragStart, true);
-                handle.addEventListener("drag", this.DragCore.onDrag, true);
-                handle.addEventListener("dragend", this.DragCore.onDragStop, true);
-                handle.addEventListener("touchstart", this.DragCore.onTouchStart, true);
-                handle.addEventListener("touchmove", this.DragCore.onTouchMove, true);
-                handle.addEventListener("touchend", this.DragCore.onTouchStop, true);
+                // Fix: Chrome Passive Event Requirement
+                const passiveOption = { passive: true };
+                handle.addEventListener("dragstart", this.DragCore.onDragStart, passiveOption);
+                handle.addEventListener("drag", this.DragCore.onDrag, passiveOption);
+                handle.addEventListener("dragend", this.DragCore.onDragStop, passiveOption);
+                handle.addEventListener("dragover", this.DragCore.onDragOver);
+                handle.addEventListener("touchstart", this.DragCore.onTouchStart, passiveOption);
+                handle.addEventListener("touchmove", this.DragCore.onTouchMove, passiveOption);
+                handle.addEventListener("touchend", this.DragCore.onTouchStop, passiveOption);
                 handle.setAttribute("draggable", true);
             }
             if (trigger) {
@@ -167,6 +170,10 @@ class DragCore {
                 }
                 this.dragging = false;
             }
+        };
+        this.onDragOver = (event) => {
+            // Fix: DragEnd waiting for Ghost Image flying back
+            event.preventDefault();
         };
         this.transform = () => {
             const component = this.component.current;
