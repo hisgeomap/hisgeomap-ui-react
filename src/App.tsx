@@ -297,11 +297,7 @@ const App: React.FC = () => {
                                         component: [
                                             <DragPanel direction="vertical">
                                                 <Button>Drag Panel</Button>
-                                                <Slider
-                                                    onChange={() => {
-                                                        console.log("b");
-                                                    }}
-                                                />
+                                                <Slider onChange={() => {}} />
                                             </DragPanel>
                                         ]
                                     },
@@ -450,7 +446,6 @@ const App: React.FC = () => {
                                                         prev: any,
                                                         cur: any
                                                     ) => {
-                                                        console.log(prev, cur);
                                                         setState(cur);
                                                     }}
                                                     defaultState={2}
