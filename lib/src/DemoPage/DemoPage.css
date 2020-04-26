@@ -13,10 +13,17 @@
     justify-content: space-around;
 }
 .DemoPage-subsection-space {
-    width: 300px;
+    width: 100%;
     min-height: 200px;
     position: relative;
     max-width: 80vw;
+}
+
+.DemoPage-subsection-extra {
+}
+
+.DemoPage-subsection-extra pre {
+    padding: 10px;
 }
 
 .DemoPage-container {

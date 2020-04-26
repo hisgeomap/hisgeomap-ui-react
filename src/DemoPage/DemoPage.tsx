@@ -1,6 +1,6 @@
 import * as React from "react";
 import "./DemoPage.css";
-import { Switch, Divider } from "antd";
+import { Switch, Divider, Icon } from "antd";
 import classNames from "classnames";
 export interface DemoPageProps {
     className?: string;
@@ -10,13 +10,18 @@ export interface DemoPageProps {
 
 interface DemoPageState {
     showComponentBorder: boolean;
+    showCode: boolean[];
 }
 class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
-    state = {
-        showComponentBorder: false
-    };
+    constructor(props: any) {
+        super(props);
+        this.state = {
+            showComponentBorder: false,
+            showCode: props.components.map((e: any) => false)
+        };
+    }
 
-    renderCompoent = (component: any, key: string) => {
+    renderCompoent = (Component: any, key: string) => {
         return (
             <div
                 key={key}
@@ -29,9 +34,20 @@ class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
                     this.props.className
                 )}
             >
-                {component}
+                <Component></Component>
             </div>
         );
+    };
+
+    switchCodeModeFunc = (n: number) => {
+        return () => {
+            this.setState({
+                ...this.state,
+                showCode: this.props.components.map((e, i: number) =>
+                    i === n ? !this.state.showCode[i] : this.state.showCode[i]
+                )
+            });
+        };
     };
     public render() {
         return (
@@ -46,28 +62,29 @@ class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
                     ></Switch>
                 </h3>
                 <div className="DemoPage-content">
-                    {this.props.components.map((e, i) => {
+                    {this.props.components.map((e, i: number) => {
                         return (
                             <div className="DemoPage-subsection" key={i}>
                                 <div className="DemoPage-subsection-content">
                                     <h2>{e.title}</h2>
                                     <Divider />
                                     <div className="DemoPage-subsection-space">
-                                        {e.component instanceof Array
-                                            ? e.component.map(
-                                                  (
-                                                      subCompoent: any,
-                                                      i: number
-                                                  ) =>
-                                                      this.renderCompoent(
-                                                          subCompoent,
-                                                          `${e.title}-${i}`
-                                                      )
-                                              )
-                                            : this.renderCompoent(
-                                                  e.component,
-                                                  `${e.title}-${0}`
-                                              )}
+                                        {this.renderCompoent(
+                                            e.component,
+                                            `${e.title}-${0}`
+                                        )}
+                                    </div>
+                                    <Divider />
+                                    <div className="DemoPage-subsection-extra">
+                                        <Icon
+                                            type="code"
+                                            onClick={this.switchCodeModeFunc(i)}
+                                        />
+                                        {this.state.showCode[i] ? (
+                                            <pre>
+                                                <code>{e.code}</code>
+                                            </pre>
+                                        ) : null}
                                     </div>
                                 </div>
                             </div>

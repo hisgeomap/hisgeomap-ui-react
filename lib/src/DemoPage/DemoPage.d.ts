@@ -7,12 +7,12 @@ export interface DemoPageProps {
 }
 interface DemoPageState {
     showComponentBorder: boolean;
+    showCode: boolean[];
 }
 declare class DemoPage extends React.Component<DemoPageProps, DemoPageState> {
-    state: {
-        showComponentBorder: boolean;
-    };
-    renderCompoent: (component: any, key: string) => JSX.Element;
+    constructor(props: any);
+    renderCompoent: (Component: any, key: string) => JSX.Element;
+    switchCodeModeFunc: (n: number) => () => void;
     render(): JSX.Element;
 }
 export default DemoPage;

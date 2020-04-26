@@ -16,7 +16,9 @@ declare class DragPanel extends React.Component<DragPanelProps, any> {
     DragCore: DragCore;
     handle: HTMLElement | null;
     trigger: NodeList | null;
-    componentDidUpdate: () => void;
+    static attrsNeedsUpdate: (keyof DragPanelProps)[];
+    componentDidUpdate: (prevProps: DragPanelProps) => void;
+    needsUpdate: (prevProps: DragPanelProps, props: DragPanelProps, list: ("className" | "direction" | "trigger" | "defaultState" | "state" | "states" | "handle" | "onTrigger" | "onStateChange")[]) => boolean;
     unbindEvent: () => void;
     bindEvent: () => void;
     triggerFunc: (e: any) => void;

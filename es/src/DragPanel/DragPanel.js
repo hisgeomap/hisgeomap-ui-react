@@ -8,10 +8,25 @@ class DragPanel extends React.Component {
         this.DragCore = new DragCore(this.ref, this.props.direction, this.props.states, this.props.defaultState, this.props.onStateChange);
         this.handle = null;
         this.trigger = null;
-        this.componentDidUpdate = () => {
-            this.unbindEvent();
-            this.DragCore = new DragCore(this.ref, this.props.direction, this.props.states, this.props.defaultState, this.props.onStateChange);
-            this.bindEvent();
+        this.componentDidUpdate = (prevProps) => {
+            if (this.needsUpdate(prevProps, this.props, DragPanel.attrsNeedsUpdate)) {
+                console.log("rebuild", prevProps, this.props);
+                // Change big enough to trigger a rebuild
+                this.unbindEvent();
+                this.DragCore = new DragCore(this.ref, this.props.direction, this.props.states, this.props.defaultState, this.props.onStateChange);
+                this.bindEvent();
+            }
+            else if (this.needsUpdate(prevProps, this.props, ["state"])) {
+                console.log("update");
+                // Only state change
+                this.DragCore.setState(this.props.state);
+            }
+        };
+        this.needsUpdate = (prevProps, props, list) => {
+            console.log(list.map((attr) => prevProps[attr] === props[attr]));
+            return (list
+                .map((attr) => prevProps[attr] === props[attr])
+                .filter(e => e === false).length > 0);
         };
         this.unbindEvent = () => {
             if (this.handle) {
@@ -82,6 +97,15 @@ class DragPanel extends React.Component {
             }, ref: this.ref }, this.props.children));
     }
 }
+DragPanel.attrsNeedsUpdate = [
+    "defaultState",
+    "states",
+    "direction",
+    "handle",
+    "trigger",
+    "onTrigger",
+    "onStateChange"
+];
 class DragCore {
     constructor(ref, direction, states = [], defaultState = -1, onStateChange) {
         this.image = new Image();

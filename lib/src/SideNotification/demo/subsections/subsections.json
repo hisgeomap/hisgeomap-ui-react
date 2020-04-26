@@ -1,0 +1,1 @@
+{ "BasicSideNotification": "import React from \"react\";\nimport { SideNotification } from \"../../..\";\n\nexport default function BasicSideNotification() {\n    return <SideNotification />;\n}\n" }

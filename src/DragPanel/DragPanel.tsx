@@ -25,17 +25,57 @@ class DragPanel extends React.Component<DragPanelProps, any> {
 
     trigger: NodeList | null = null;
 
-    componentDidUpdate = () => {
-        this.unbindEvent();
-        this.DragCore = new DragCore(
-            this.ref,
-            this.props.direction,
-            this.props.states,
-            this.props.defaultState,
-            this.props.onStateChange
-        );
+    static attrsNeedsUpdate: (keyof DragPanelProps)[] = [
+        "defaultState",
+        "states",
+        "direction",
+        "handle",
+        "trigger",
+        "onTrigger",
+        "onStateChange"
+    ];
 
-        this.bindEvent();
+    componentDidUpdate = (prevProps: DragPanelProps) => {
+        if (
+            this.needsUpdate(prevProps, this.props, DragPanel.attrsNeedsUpdate)
+        ) {
+            console.log("rebuild", prevProps, this.props);
+            // Change big enough to trigger a rebuild
+            this.unbindEvent();
+            this.DragCore = new DragCore(
+                this.ref,
+                this.props.direction,
+                this.props.states,
+                this.props.defaultState,
+                this.props.onStateChange
+            );
+
+            this.bindEvent();
+        } else if (this.needsUpdate(prevProps, this.props, ["state"])) {
+            console.log("update");
+            // Only state change
+            this.DragCore.setState(this.props.state);
+        }
+    };
+
+    needsUpdate = (
+        prevProps: DragPanelProps,
+        props: DragPanelProps,
+        list: (keyof DragPanelProps)[]
+    ) => {
+        console.log(
+            list.map(
+                (attr: keyof DragPanelProps) => prevProps[attr] === props[attr]
+            )
+        );
+        return (
+            list
+                .map(
+                    (attr: keyof DragPanelProps) =>
+                        prevProps[attr] === props[attr]
+                )
+                .filter(e => e === false).length > 0
+        );
     };
 
     unbindEvent = () => {
