@@ -8,7 +8,7 @@ const mode1 = {
     direction: "horizontal"
 };
 const mode2 = {
-    state: 0,
+    state: 2,
     states: [["0", "0"], ["0", "40%"], ["0%", "90%"]],
     direction: "vertical",
     defaultState: 1

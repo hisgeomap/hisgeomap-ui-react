@@ -15,6 +15,7 @@ class DragPanel extends React.Component {
                 this.unbindEvent();
                 this.DragCore = new DragCore(this.ref, this.props.direction, this.props.states, this.props.defaultState, this.props.onStateChange);
                 this.bindEvent();
+                this.DragCore.setState(this.props.state);
             }
             else if (this.needsUpdate(prevProps, this.props, ["state"])) {
                 console.log("update");
