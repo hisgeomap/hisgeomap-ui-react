@@ -81,7 +81,8 @@ class DragPanel extends React.Component {
                     displacement: [0, 0],
                     pos: [0, 0]
                 };
-                lastIndex !== this.DragCore.curPos.state &&
+                lastIndex !== -1 &&
+                    lastIndex !== this.DragCore.curPos.state &&
                     this.props.onStateChange &&
                     this.props.onStateChange(lastIndex, this.DragCore.curPos.state);
                 this.DragCore.transform();
@@ -93,8 +94,7 @@ class DragPanel extends React.Component {
     }
     render() {
         return (React.createElement("div", { className: classNames("DragPanel", this.props.className), style: {
-                transform: this.DragCore.getTransform(),
-                transition: this.DragCore.transition
+                transform: this.DragCore.getTransform()
             }, ref: this.ref }, this.props.children));
     }
 }
@@ -132,7 +132,7 @@ class DragCore {
                 const lastState = this.curPos.state;
                 this.curPos.state = state;
                 this.curPos.displacement = [0, 0];
-                this.transform();
+                this.transform(true);
                 lastState !== this.curPos.state &&
                     this.onStateChange &&
                     this.onStateChange(lastState, this.curPos.state);
@@ -209,7 +209,6 @@ class DragCore {
             if (component && this.dragging && this.isMainDir) {
                 if (this.isMainDir) {
                     component.scrollTop = this.scrollTop;
-                    component.style.transition = this.transition;
                     this.curPos.displacement[0] += this.curPos.pos[0];
                     this.curPos.displacement[1] += this.curPos.pos[1];
                     this.curPos.pos = [0, 0];
@@ -224,11 +223,17 @@ class DragCore {
             // Fix: DragEnd waiting for Ghost Image flying back
             event.preventDefault();
         };
-        this.transform = () => {
+        this.transform = (animation = false) => {
             const component = this.component.current;
             if (component) {
                 component.scrollTop = this.scrollTop;
-                component.style.transform = this.getTransform();
+                if (animation) {
+                    component.style.transition = this.transition;
+                    component.style.transform = this.getTransform();
+                }
+                else {
+                    component.style.transform = this.getTransform();
+                }
             }
         };
         this.getTransform = () => {

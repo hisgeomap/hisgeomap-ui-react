@@ -58,7 +58,7 @@ declare class DragCore {
     onDrag: (event: any) => void;
     onDragStop: (event: any) => void;
     onDragOver: (event: any) => void;
-    transform: () => void;
+    transform: (animation?: boolean) => void;
     getTransform: () => string;
     translateCSS: (css: string) => {
         percent: boolean;
